@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-04T17:57:46.137868-03:00",
-  "status": "Fire publicado com download e SHA-256 verificados; Shield nt4 em compilaÃƒÂ§ÃƒÂ£o.",
-  "eta": "ETA Shield 19:10–20:00, sujeito aos testes. Fire tecnicamente entregue. Concluir ambas as edições até 19h tornou-se improvável; qualidade tem prioridade.",
+  "updatedAt": "2026-10-04T18:23:06.138187-03:00",
+  "status": "Fire publicado com download e SHA-256 verificados; Shield nt4 em compilaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o.",
+  "eta": "ETA Shield 19:20–20:20, sujeito aos testes. Fire tecnicamente entregue. Concluir ambas as edições até 19h tornou-se improvável; qualidade tem prioridade.",
   "steps": [
     {
       "label": "Auditoria",
@@ -28,11 +28,11 @@
       "status": "pending"
     },
     {
-      "label": "PublicaÃƒÂ§ÃƒÂ£o",
+      "label": "PublicaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o",
       "status": "pending"
     },
     {
-      "label": "Entrega mÃƒÂ³vel",
+      "label": "Entrega mÃƒÆ’Ã‚Â³vel",
       "status": "pending"
     }
   ],
@@ -40,7 +40,8 @@
     "downloadVerified": true
   },
   "shield": {
-    "downloadVerified": false
+    "downloadVerified": false,
+    "status": "Candidato instalado. Backdrop e recomendações corrigidos no código; novo APK e testes em validação."
   },
   "downloaderCode": null
 }
