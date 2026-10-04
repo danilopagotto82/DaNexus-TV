@@ -61,7 +61,10 @@ const checklist=[
 "Pausar, avançar, retroceder e sair funcionam",
 "Controle pelo celular funciona após pareamento",
 "Prévias e sincronização funcionam quando configuradas",
-"Formatos de áudio, HDR e Dolby Vision funcionam nos títulos e equipamentos compatíveis"
+"Formatos de áudio, HDR e Dolby Vision funcionam nos títulos e equipamentos compatíveis",
+"Imagem de fundo aparece ao abrir os detalhes de filmes",
+"Remover exclui a recomendação e ela continua removida ao reabrir",
+"Enviar para vários perfis e Enviar para todos entregam ao destinatário correto"
 ];
 const storageKey="danexus-physical-v3";
 let state={};
@@ -76,6 +79,9 @@ byId("export").onclick=()=>{const url=URL.createObjectURL(new Blob([report()],{t
 byId("copy").onclick=async()=>{try{await navigator.clipboard.writeText(report());byId("feedback").textContent="Teste copiado. Cole no chat."}catch{byId("feedback").textContent="Não foi possível copiar. Use Exportar meu teste."}};
 byId("reset").onclick=()=>{if(confirm("Limpar as marcações e observações apenas deste aparelho?")){state[byId("device").value]={checked:[],notes:""};save();render()}};
 async function progress(){try{const r=await fetch("progress.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error();const p=await r.json();byId("statusText").textContent=p.status;byId("updated").textContent="Última atualização: "+new Date(p.updatedAt).toLocaleString("pt-BR",{timeZone:"America/Sao_Paulo"});const done=p.steps.filter(s=>s.status==="done").length;byId("bar").style.width=(done/p.steps.length*100)+"%";byId("count").textContent=done+"/"+p.steps.length+" etapas verificadas da entrega";byId("eta").textContent=p.eta||"";byId("steps").replaceChildren();p.steps.forEach(s=>{const e=document.createElement("span");e.className="step "+s.status;e.textContent=s.label;byId("steps").append(e)});byId("fireAvailability").textContent=p.fire.downloadVerified?"Download público conferido.":"Disponibilidade do download em conferência.";
+if(p.shield.status)byId("shieldStatus").textContent=p.shield.status;
+if(p.fire.status)byId("fireAvailability").textContent=p.fire.status;
+if(p.fire.downloadVerified&&p.fire.url)byId("fireDownload").href=p.fire.url;
 if(p.shield.downloadVerified){const a=byId("shieldDownload");a.href=p.shield.url;a.className="button primary";a.removeAttribute("aria-disabled");a.textContent="Baixar APK Shield";byId("shieldStatus").textContent=p.shield.status;byId("shieldMeta").textContent=p.shield.meta;byId("shieldHash").textContent="SHA-256: "+p.shield.sha256;byId("shieldAvailability").textContent="Download público conferido."}
 if(p.downloaderCode)byId("downloaderInfo").textContent="Código Downloader desta página: "+p.downloaderCode;
 }catch{byId("statusText").textContent="Não foi possível atualizar o painel. Confira os arquivos e notas em Releases.";}}
