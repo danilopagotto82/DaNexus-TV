@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-04T18:23:06.138187-03:00",
-  "status": "Fire publicado com download e SHA-256 verificados; Shield nt4 em compilaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o.",
-  "eta": "ETA Shield 19:20–20:20, sujeito aos testes. Fire tecnicamente entregue. Concluir ambas as edições até 19h tornou-se improvável; qualidade tem prioridade.",
+  "updatedAt": "2026-10-04T18:30:41.622723-03:00",
+  "status": "Validação das correções de backdrop e recomendações. Shield candidato instalado; Fire anterior publicado.",
+  "eta": "Estimativa 19:20–20:20, sujeita aos testes e à validação física. As correções funcionais têm prioridade sobre o prazo.",
   "steps": [
     {
       "label": "Auditoria",
@@ -13,11 +13,11 @@
     },
     {
       "label": "Build Shield",
-      "status": "active"
+      "status": "pending"
     },
     {
-      "label": "Testes",
-      "status": "pending"
+      "label": "Testes essenciais",
+      "status": "active"
     },
     {
       "label": "Smoke Shield",
@@ -28,20 +28,21 @@
       "status": "pending"
     },
     {
-      "label": "PublicaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o",
+      "label": "Publicação",
       "status": "pending"
     },
     {
-      "label": "Entrega mÃƒÆ’Ã‚Â³vel",
+      "label": "Entrega móvel",
       "status": "pending"
     }
   ],
   "fire": {
-    "downloadVerified": true
+    "downloadVerified": true,
+    "status": "Versão anterior publicada. Correção de recomendações preparada; novo build e testes pendentes."
   },
   "shield": {
     "downloadVerified": false,
-    "status": "Candidato instalado. Backdrop e recomendações corrigidos no código; novo APK e testes em validação."
+    "status": "Backdrop e recomendações corrigidos no código. Testes essenciais em nova rodada; APK final pendente."
   },
   "downloaderCode": null
 }
