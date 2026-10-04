@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-04T17:49:02.417479-03:00",
-  "status": "Fire publicado com download e SHA-256 verificados; Shield nt4 em compilaÃ§Ã£o.",
-  "eta": "ETA provisório 18:50–19:45. Meta 19h apertada; testes e playback no Shield determinam o prazo.",
+  "updatedAt": "2026-10-04T17:57:46.137868-03:00",
+  "status": "Fire publicado com download e SHA-256 verificados; Shield nt4 em compilaÃƒÂ§ÃƒÂ£o.",
+  "eta": "ETA Shield 19:10–20:00, sujeito aos testes. Fire tecnicamente entregue. Concluir ambas as edições até 19h tornou-se improvável; qualidade tem prioridade.",
   "steps": [
     {
       "label": "Auditoria",
@@ -28,11 +28,11 @@
       "status": "pending"
     },
     {
-      "label": "PublicaÃ§Ã£o",
+      "label": "PublicaÃƒÂ§ÃƒÂ£o",
       "status": "pending"
     },
     {
-      "label": "Entrega mÃ³vel",
+      "label": "Entrega mÃƒÂ³vel",
       "status": "pending"
     }
   ],
