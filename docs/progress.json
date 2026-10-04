@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-04T17:12:00-03:00",
-  "status": "Fire validado no checkpoint; Shield nt4 em compilação.",
-  "eta": "Estimativa provisória: 2–3 horas de trabalho técnico. Meta 19:00 apertada; testes têm prioridade.",
+  "updatedAt": "2026-10-04T17:26:17.269456-03:00",
+  "status": "Fire publicado com download e SHA-256 verificados; Shield nt4 em compilação.",
+  "eta": "ETA provisório 18:45–19:45. Meta 19h apertada; validação do Shield determina o prazo.",
   "steps": [
     {
       "label": "Auditoria",
@@ -37,7 +37,7 @@
     }
   ],
   "fire": {
-    "downloadVerified": false
+    "downloadVerified": true
   },
   "shield": {
     "downloadVerified": false
