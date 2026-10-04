@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-04T17:26:17.269456-03:00",
-  "status": "Fire publicado com download e SHA-256 verificados; Shield nt4 em compilação.",
-  "eta": "ETA provisório 18:45–19:45. Meta 19h apertada; validação do Shield determina o prazo.",
+  "updatedAt": "2026-10-04T17:49:02.417479-03:00",
+  "status": "Fire publicado com download e SHA-256 verificados; Shield nt4 em compilaÃ§Ã£o.",
+  "eta": "ETA provisório 18:50–19:45. Meta 19h apertada; testes e playback no Shield determinam o prazo.",
   "steps": [
     {
       "label": "Auditoria",
@@ -9,11 +9,11 @@
     },
     {
       "label": "Interface nt4",
-      "status": "active"
+      "status": "done"
     },
     {
       "label": "Build Shield",
-      "status": "pending"
+      "status": "active"
     },
     {
       "label": "Testes",
@@ -28,11 +28,11 @@
       "status": "pending"
     },
     {
-      "label": "Publicação",
+      "label": "PublicaÃ§Ã£o",
       "status": "pending"
     },
     {
-      "label": "Entrega móvel",
+      "label": "Entrega mÃ³vel",
       "status": "pending"
     }
   ],

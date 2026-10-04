@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="danexus_seek_section">Scene previews · Seekr</string>
+    <string name="danexus_seek_enabled">Preview scenes while seeking</string>
+    <string name="danexus_seek_enabled_desc">Shows available scene thumbnails above the timeline. Requires your own Seekr key.</string>
+    <string name="danexus_seek_key">Seekr API key</string>
+    <string name="danexus_seek_key_desc">Get your key at seekr.tv, then enter it here. The key is stored encrypted on this TV.</string>
+    <string name="danexus_seek_configured">Configured</string>
+    <string name="danexus_seek_missing">Not configured</string>
+    <string name="danexus_seek_instructions">Create your account at https://seekr.tv, verify your email and claim a key. Availability and service limits depend on Seekr. Only the title ID, episode and duration are sent; the video link stays on the TV. Missing previews never block playback.</string>
+    <string name="danexus_seek_invalid">Could not validate this key. Check the key, connection and Seekr account.</string>
+    <string name="danexus_seek_save_failed">Could not save the key securely on this TV.</string>
+    <string name="danexus_seek_validating">Validating…</string>
+    <string name="danexus_seek_save">Validate and save</string>
+    <string name="danexus_seek_sync">Sync scene previews</string>
+    <string name="danexus_seek_sync_desc">Adjust the preview timing for this source. Negative values match a source with an extra intro. Resets when changing source or episode.</string>
+    <string name="danexus_seek_no_preview">No preview available. Configure your Seekr key or try a supported title.</string>
+    <string name="danexus_seek_frame">Scene preview</string>
+    <string name="danexus_seek_time">Scene around %1$s</string>
+    <string name="danexus_seek_offset">Preview adjustment: %1$d s</string>
+    <string name="danexus_seek_reset">Reset</string>
+</resources>

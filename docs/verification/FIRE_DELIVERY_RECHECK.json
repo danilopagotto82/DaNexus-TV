@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "package": "com.danexus.tv.fire.debug",
+  "versionCode": 1068,
+  "abis": [
+    "armeabi-v7a"
+  ],
+  "certificateSha256": "77066ec7da0b758bbab4304a2ae64e22ed0f381d1ed29f85abfb1be3d26f1419",
+  "sha256": "c8c9ede4aa35271759a4b0af820513a83a01402a826b6e8656c5267b4480e898",
+  "sourceArchiveForbiddenFiles": []
+}

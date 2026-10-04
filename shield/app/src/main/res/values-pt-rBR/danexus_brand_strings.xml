@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="danexus_hardware_profile">Quarto · Fire TV Stick 4K Max · 2ª geração</string>
+    <string name="danexus_remote_title">Controle remoto DaNexus</string>
+    <string name="danexus_remote_subtitle">Use o QR da TV ou Ajustes → DaNexus → Abrir acesso ao controle para ver endereço e código. Celular e TV na mesma rede Wi-Fi. O PC pode estar desligado.</string>
+    <string name="danexus_remote_url" translatable="false">http://192.168.0.7:8787/controle.html</string>
+    <string name="danexus_remote_qr_description">QR Code do controle remoto DaNexus</string>
+</resources>

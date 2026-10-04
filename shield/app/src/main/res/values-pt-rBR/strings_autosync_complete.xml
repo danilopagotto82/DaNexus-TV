@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string name="autosync_setting_title">Sincronizar legendas automaticamente</string>
+  <string name="autosync_setting_description">Ajusta a legenda do addon usando as legendas embutidas no vídeo como referência.</string>
+  <string name="autosync_tolerance_title">Tolerância da sincronização</string>
+  <string name="autosync_tolerance_description">Mantém o tempo original quando a correção é menor ou igual a este valor.</string>
+  <string name="autosync_tolerance_off">Desligado</string>
+  <string name="autosync_tolerance_value">%1$d ms</string>
+  <string name="autosync_thorough_title">Busca detalhada de sincronização</string>
+  <string name="autosync_thorough_description">Compara outras legendas e faixas para encontrar uma correspondência melhor. Desligado: usa a primeira correspondência confiável. Só aplica ajustes com confiança.</string>
+  <string name="autosync_toast_failed">Não foi possível sincronizar esta legenda com o vídeo.</string>
+  <string name="autosync_toast_failed_no_reference">Este vídeo não tem legendas embutidas para comparação.</string>
+  <string name="autosync_toast_failed_unsupported">Este formato de legenda não é compatível com a sincronização automática.</string>
+  <string name="autosync_label_synced">Sincronizada automaticamente</string>
+</resources>

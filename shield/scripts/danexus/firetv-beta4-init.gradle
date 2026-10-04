@@ -1,0 +1,5 @@
+gradle.beforeProject { p ->
+    if (p.path == ':app') {
+        p.layout.buildDirectory.set(new File(p.rootDir.parentFile, 'build-firetv-beta4/app'))
+    }
+}

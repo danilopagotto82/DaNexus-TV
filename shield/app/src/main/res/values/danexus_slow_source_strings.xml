@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="danexus_slow_source_title">Taking longer to start?</string>
+    <string name="danexus_slow_source_body">You can try another source now. If this one does not start, we will switch automatically.</string>
+    <string name="danexus_slow_source_countdown">Automatic switch in %1$d s</string>
+    <string name="danexus_slow_source_next">Change source</string>
+    <string name="danexus_slow_source_wait">Keep waiting</string>
+</resources>

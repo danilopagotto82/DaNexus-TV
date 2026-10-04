@@ -1,0 +1,15 @@
+<resources>
+    <string name="danexus_v2_title">Nuvio V2 appearance</string>
+    <string name="danexus_v2_desc">Use the nt4 fork appearance adapted to DaNexus: materials, focus and palette. Off keeps the current appearance.</string>
+    <string name="danexus_v2_style">Nuvio V2 style</string>
+    <string name="danexus_v2_style_desc">Choose cinematic glass or dark surfaces.</string>
+    <string name="danexus_v2_glass">Cinematic glass</string>
+    <string name="danexus_v2_dark">Pure liquid dark</string>
+    <string name="danexus_v2_transparency">Glass transparency</string>
+    <string name="danexus_v2_transparency_desc">Adjust transparency while keeping menus and dialogs readable. Default: 60%.</string>
+    <string name="danexus_v2_focus">Cinematic focus</string>
+    <string name="danexus_v2_focus_desc">Highlight the focused option with a luminous edge. Off uses a subtle lift.</string>
+    <string name="danexus_ui_scale">Interface scale</string>
+    <string name="danexus_ui_scale_desc">Smaller values show more content. Default: 95%. The bar takes its own space and does not cover the banner.</string>
+    <string name="danexus_percent">%1$d%%</string>
+</resources>

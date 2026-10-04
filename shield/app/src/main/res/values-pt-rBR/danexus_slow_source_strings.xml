@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="danexus_slow_source_title">Demorando para iniciar?</string>
+    <string name="danexus_slow_source_body">Você pode tentar outra fonte agora. Se esta não iniciar, mudaremos automaticamente.</string>
+    <string name="danexus_slow_source_countdown">Troca automática em %1$d s</string>
+    <string name="danexus_slow_source_next">Mudar fonte</string>
+    <string name="danexus_slow_source_wait">Esperar</string>
+</resources>

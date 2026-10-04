@@ -1,0 +1,5 @@
+<resources>
+    <string name="danexus_searching_source">Procurando a melhor opção…</string>
+    <string name="danexus_trying_source">Tentando outra fonte (%1$d de %2$d)…</string>
+    <string name="danexus_no_source">Nenhuma opção conseguiu iniciar. Tente novamente mais tarde.</string>
+</resources>

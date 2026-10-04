@@ -4,5 +4,16 @@
     "base": "1.1.0-beta.4",
     "customCommit": "7faf8969d202d056d0b32e3bec66f2315a346c54",
     "files": 1542
+  },
+  "shield": {
+    "upstream": "https://github.com/ysosrs123/NuvioTV-Fork",
+    "base": "1.1.0-beta-nt4",
+    "customCommit": "293c7bfc14c96845b68cf9bb6202d9559ec240bb",
+    "parents": [
+      "26e959c978c2039ceeee62317b5e2c6e58b8cb62",
+      "7faf8969d202d056d0b32e3bec66f2315a346c54"
+    ],
+    "files": 2712,
+    "status": "Integration candidate; APK validation pending"
   }
 }

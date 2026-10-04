@@ -1,0 +1,13 @@
+import java.time.Duration
+gradle.projectsEvaluated {
+    allprojects { p ->
+        p.tasks.withType(Test).configureEach { t ->
+            timeout = Duration.ofMinutes(4)
+            def completed = 0
+            afterTest { descriptor, result ->
+                completed++
+                println("DANEXUS_TEST ${completed} ${result.resultType} ${descriptor.className}.${descriptor.name}")
+            }
+        }
+    }
+}

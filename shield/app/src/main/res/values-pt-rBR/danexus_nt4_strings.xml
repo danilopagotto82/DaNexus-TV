@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="party_code_placeholder">ABC 234</string>
+    <string name="v2_experience_v2">Nuvio V2</string>
+    <string name="v2_experience_original">Nuvio clássico</string>
+    <string name="v2_style_cinematic">Vidro cinematográfico</string>
+    <string name="v2_style_dark">Escuro fluido</string>
+    <string name="v2_ui_diagnostics_title">Diagnóstico da interface do aparelho</string>
+    <string name="v2_ui_diagnostics_subtitle">Janela, densidade, área útil e tempo dos quadros recentes da interface</string>
+    <string name="v2_focus_glass_lift">Contorno de vidro</string>
+    <string name="v2_focus_cinematic">Brilho cinematográfico</string>
+</resources>
