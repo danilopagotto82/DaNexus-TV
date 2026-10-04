@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="danexus_seek_section">Prévias de cenas · Seekr</string>
+    <string name="danexus_seek_enabled">Mostrar cenas ao avançar e voltar</string>
+    <string name="danexus_seek_enabled_desc">Mostra miniaturas disponíveis acima da barra do vídeo. Requer sua própria chave Seekr.</string>
+    <string name="danexus_seek_key">Chave de acesso Seekr</string>
+    <string name="danexus_seek_key_desc">Obtenha sua chave em seekr.tv e digite aqui. A chave fica criptografada nesta TV.</string>
+    <string name="danexus_seek_configured">Configurada</string>
+    <string name="danexus_seek_missing">Não configurada</string>
+    <string name="danexus_seek_instructions">Crie sua conta em https://seekr.tv, confirme o e-mail e obtenha uma chave. A disponibilidade e os limites dependem do Seekr. São enviados apenas o identificador do título, episódio e duração; o link do vídeo fica na TV. A falta de prévias não interrompe a reprodução.</string>
+    <string name="danexus_seek_invalid">Não foi possível validar a chave. Confira a chave, a conexão e sua conta Seekr.</string>
+    <string name="danexus_seek_save_failed">Não foi possível salvar a chave com segurança nesta TV.</string>
+    <string name="danexus_seek_validating">Validando…</string>
+    <string name="danexus_seek_save">Validar e salvar</string>
+    <string name="danexus_seek_sync">Sincronizar prévias</string>
+    <string name="danexus_seek_sync_desc">Ajuste o tempo das miniaturas para esta fonte. Valores negativos compensam uma abertura extra. O ajuste reinicia ao mudar de fonte ou episódio.</string>
+    <string name="danexus_seek_no_preview">Nenhuma prévia disponível. Configure sua chave Seekr ou teste um título disponível no serviço.</string>
+    <string name="danexus_seek_frame">Prévia da cena</string>
+    <string name="danexus_seek_time">Cena próxima de %1$s</string>
+    <string name="danexus_seek_offset">Ajuste das prévias: %1$d s</string>
+    <string name="danexus_seek_reset">Zerar</string>
+</resources>

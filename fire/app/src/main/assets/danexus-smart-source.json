@@ -1,0 +1,94 @@
+{
+  "profiles": [
+    {
+      "enabled": true,
+      "selectedAddonNames": [
+        "⚡ DaNexus · AIO Instant"
+      ],
+      "allowedAddonNames": [
+        "⚡ DaNexus · AIO Instant"
+      ],
+      "kids": false,
+      "backendBaseUrls": ["http://192.168.0.7:8787", "http://192.168.0.7:8797"],
+      "backendProfileId": "74493bca-60a0-4c3d-a956-d3e14b24463f",
+      "category": "remux"
+    },
+    {
+      "enabled": true,
+      "selectedAddonNames": [
+        "🧸 DaNexus · INFANTIL"
+      ],
+      "allowedAddonNames": [
+        "🧸 DaNexus · INFANTIL"
+      ],
+      "kids": true,
+      "backendBaseUrls": ["http://192.168.0.7:8787", "http://192.168.0.7:8797"],
+      "backendProfileId": "99033bac-696a-4a11-9371-6f032a91bbbd",
+      "category": "kids"
+    },
+    {
+      "enabled": true,
+      "selectedAddonNames": [
+        "🎌 DaNexus · Anime"
+      ],
+      "allowedAddonNames": [
+        "🎌 DaNexus · Anime"
+      ],
+      "kids": false,
+      "backendBaseUrls": ["http://192.168.0.7:8787", "http://192.168.0.7:8797"],
+      "backendProfileId": "bf9a3723-00f5-4b60-b151-ddb3da151627",
+      "category": "anime"
+    },
+    {
+      "enabled": true,
+      "selectedAddonNames": [
+        "🇧🇷 DaNexus · Dublado Ultimate"
+      ],
+      "allowedAddonNames": [
+        "🇧🇷 DaNexus · Dublado Ultimate"
+      ],
+      "kids": false,
+      "backendBaseUrls": ["http://192.168.0.7:8787", "http://192.168.0.7:8797"],
+      "backendProfileId": "dublado",
+      "category": "dublado"
+    },
+    {
+      "enabled": true,
+      "selectedAddonNames": [
+        "🔥 DaNexus · Fire 4K Max"
+      ],
+      "allowedAddonNames": [
+        "🔥 DaNexus · Fire 4K Max"
+      ],
+      "kids": false,
+      "backendBaseUrls": ["http://192.168.0.7:8787", "http://192.168.0.7:8797"],
+      "backendProfileId": "fire4k",
+      "category": "fire4k"
+    },
+    {
+      "enabled": true,
+      "selectedAddonNames": [
+        "💿 DaNexus · REMUX Sala"
+      ],
+      "allowedAddonNames": [
+        "💿 DaNexus · REMUX Sala"
+      ],
+      "kids": false,
+      "backendBaseUrls": ["http://192.168.0.7:8787", "http://192.168.0.7:8797"],
+      "backendProfileId": "remux",
+      "category": "remux"
+    },
+    {
+      "enabled": true,
+      "selectedAddonNames": [
+        "DaNexus Smart Source Smoke"
+      ],
+      "allowedAddonNames": [
+        "DaNexus Smart Source Smoke"
+      ],
+      "backendBaseUrl": "http://192.168.0.7:8797",
+      "backendProfileId": "phase06-smoke",
+      "category": "controlled-smoke"
+    }
+  ]
+}

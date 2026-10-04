@@ -1,0 +1,9 @@
+{
+  "room": "Quarto",
+  "player": "Amazon Fire TV Stick 4K Max (2nd generation)",
+  "display": "Samsung UN55MU6300",
+  "audio": "Samsung HW-Q600F",
+  "other": null,
+  "wiring": "NOT_YET_OBSERVED",
+  "policy": "Use runtime HDMI/display/audio capabilities; never assume codecs from room inventory alone."
+}

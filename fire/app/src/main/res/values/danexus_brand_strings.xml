@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="danexus_hardware_profile">Bedroom · Fire TV Stick 4K Max · 2nd generation</string>
+    <string name="danexus_remote_title">DaNexus Remote Control</string>
+    <string name="danexus_remote_subtitle">Scan the TV QR or use Settings → DaNexus → Remote control for the address and pairing code. Both devices must be on the same Wi-Fi. The PC can be off.</string>
+    <string name="danexus_remote_url" translatable="false">http://192.168.0.7:8787/controle.html</string>
+    <string name="danexus_remote_qr_description">QR code for DaNexus remote control</string>
+</resources>

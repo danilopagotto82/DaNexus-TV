@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding="utf-8"?>
+<resources>
+    <string name="layout_trailer_play_in_background">Reproduzir em segundo plano</string>
+    <string name="layout_trailer_play_in_background_sub">Reproduzir o trailer no lugar da imagem de fundo enquanto a página permanece visível.</string>
+    <string name="layout_detail_group_episodes">Episódios</string>
+    <string name="autoplay_preload_next_episode">Pré-carregar fontes do próximo episódio</string>
+    <string name="layout_trailer_pause_on_scroll">Pausar ao rolar a página</string>
+    <string name="autoplay_preload_next_episode_sub">Buscar fontes em segundo plano antes de aparecer o botão do próximo episódio.</string>
+    <string name="layout_detail_group_trailers">Trailers</string>
+    <string name="layout_trailer_pause_on_scroll_sub">Pausar o trailer ao rolar para baixo e retomá-lo ao voltar para o topo.</string>
+    <string name="layout_detail_group_metadata">Metadados</string>
+</resources>

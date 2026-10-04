@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DaNexus • Fire TV e Shield</title>
+<style>
+:root{color-scheme:dark;--bg:#080f1c;--panel:#131e30;--ink:#eef3fa;--muted:#aebdd2;--gold:#f2cb83;--line:#293a54}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 0 0,#26394f,transparent 58%),var(--bg);color:var(--ink);font:16px/1.6 system-ui,sans-serif}
+main{max-width:1100px;margin:auto;padding:28px 20px 60px}header{display:flex;align-items:center;gap:25px;margin-bottom:25px}
+header img{width:135px;height:160px;object-fit:contain}h1{margin:0;font-size:clamp(28px,5vw,43px);letter-spacing:-1px}h2{margin:0 0 8px;font-size:24px}h3{margin:14px 0 7px}p{margin:8px 0}.muted,small{color:var(--muted)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card,.panel{background:linear-gradient(145deg,#17243a,var(--panel));border:1px solid var(--line);border-radius:22px;padding:24px;margin-bottom:20px}
+.fire{border-top:4px solid #f3bc6e}.shield{border-top:4px solid #8ddeab}.badge{display:inline-block;font-size:13px;font-weight:700;border:1px solid var(--line);border-radius:20px;padding:4px 12px;margin-bottom:14px}
+.ok{color:#9ce7bd}.pending{color:#f7d591}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 9px}a{color:#9ed8ff;text-underline-offset:4px}.button,button{display:inline-block;border:1px solid var(--line);border-radius:12px;padding:12px 17px;text-decoration:none;background:#253653;color:var(--ink);font:inherit;cursor:pointer}.primary{background:var(--gold);color:#152132;font-weight:800;border-color:var(--gold)}.disabled{opacity:.55;cursor:default}
+code{overflow-wrap:anywhere;color:#ccdaea;font-size:12px}.progress{height:9px;overflow:hidden;background:#09121f;border-radius:8px;margin:8px 0 5px}.progress span{display:block;height:100%;background:var(--gold)}.row{display:flex;justify-content:space-between;gap:12px}.steps{display:flex;flex-wrap:wrap;gap:7px}.step{font-size:12px;padding:4px 8px;border-radius:7px;background:#0a1526}.step.done{background:#16382c;color:#b1eccd}.step.active{outline:1px solid var(--gold)}
+details{margin-top:14px}summary{cursor:pointer;font-weight:650}label.check{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}input[type=checkbox]{width:22px;height:22px;flex-shrink:0;accent-color:#e5bb74}
+select,textarea{width:100%;border:1px solid var(--line);background:#091422;color:var(--ink);border-radius:10px;padding:12px;font:inherit}textarea{min-height:110px}.reportgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.privacy{font-size:13px;color:var(--muted)}
+@media(max-width:700px){.cards,.reportgrid{grid-template-columns:1fr}main{padding:20px 14px 40px}header{gap:14px}header img{width:80px;height:105px}.card,.panel{padding:19px}h1{font-size:29px}.button{display:block;text-align:center;flex:1}}
+@media(prefers-reduced-motion:no-preference){.button:hover,button:hover{filter:brightness(1.12)}}
+</style></head><body><main>
+<header><img src="assets/danexus-logo.png" alt="Logo DaNexus"><div><h1>Sua experiência DaNexus.</h1><p class="muted">Duas edições. A mesma identidade. A base certa para cada TV.</p><span class="badge">FASE 12 • Validação final dos APKs</span></div></header>
+<section class="panel" aria-labelledby="progressTitle"><h2 id="progressTitle">Andamento da entrega</h2>
+<p id="statusText">Carregando o último checkpoint…</p><div class="row"><small id="updated">Atualização em conferência</small><small>Meta de hoje: 19:00 • Brasília</small></div>
+<div class="progress"><span id="bar" style="width:0"></span></div><p id="count" class="muted"></p><div id="steps" class="steps"></div><p id="eta" class="muted"></p><p class="privacy">Este painel mostra o último checkpoint publicado. A estimativa não é promessa; funcionamento e testes têm prioridade.</p></section>
+<div class="cards">
+<section class="card fire"><span class="badge ok">FIRE TV • 32 BITS</span><h2>Fire TV Stick 4K Max</h2><p class="muted">2ª geração • Nuvio oficial beta.4 • DaNexus</p>
+<p><strong>130 testes, zero falhas</strong> no checkpoint da compilação. SHA-256 da entrega reconferido.</p>
+<p>Fonte Inteligente, aviso lateral, contador, troca de fonte, recomendações por perfil, controle pelo celular e aparência Nuvio V2 adaptada.</p>
+<div class="actions"><a class="button primary" id="fireDownload" href="https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.2/DaNexus-FireTV-1.1.0-beta.4-armeabi-v7a.apk">Baixar APK Fire TV</a></div>
+<small id="fireAvailability">Disponibilidade do download em conferência.</small>
+<details><summary>Versão e conferência</summary><p>Versão: 1.1.0-beta.4-danexus.2<br>Pacote: <code>com.danexus.tv.fire.debug</code><br>Arquitetura: armeabi-v7a • 32 bits<br>Tamanho: 81.158.628 bytes</p>
+<p>SHA-256:<br><code>c8c9ede4aa35271759a4b0af820513a83a01402a826b6e8656c5267b4480e898</code></p>
+<a href="https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.2/DaNexus-FireTV-1.1.0-beta.4-source.zip">Código-fonte desta versão</a></details>
+<p class="pending">Homologação física do Fire pendente do Dan.</p></section>
+<section class="card shield"><span class="badge pending">SHIELD • 64 BITS</span><h2>NVIDIA Shield</h2><p class="muted">Shield 2017 • Fork 1.1.0-beta-nt4 • DaNexus</p>
+<p id="shieldStatus">Integração e testes em andamento. A versão anterior apresentou fechamento ao escolher uma fonte manualmente.</p><p>A base nt4 conserva seus recursos nativos. A interface, perfis e controles DaNexus estão sendo integrados e conferidos.</p>
+<div class="actions"><a class="button disabled" id="shieldDownload" aria-disabled="true">APK Shield em validação</a></div><small id="shieldAvailability">O botão será liberado depois da validação técnica.</small>
+<details><summary>Versão e conferência</summary><p id="shieldMeta">Aguardando APK validado.</p><code id="shieldHash"></code></details>
+</section></div>
+<section class="panel"><h2>Como instalar</h2><ol><li>Baixe a edição do seu aparelho: <strong>Fire 32 bits</strong> ou <strong>Shield 64 bits</strong>.</li><li>No Downloader, abra esta página ou o link direto do APK.</li><li>Instale como atualização da edição DaNexus correspondente. Os pacotes e a assinatura precisam ser compatíveis.</li><li>Abra o DaNexus e siga o checklist abaixo no aparelho.</li></ol><p id="downloaderInfo" class="muted">Código numérico Downloader ainda em preparação. O endereço desta página também pode ser digitado no aplicativo.</p></section>
+<section class="panel"><h2>Seu teste na TV</h2><p class="muted">Marque somente o que você realmente verificou. As marcações ficam neste navegador.</p>
+<select id="device" aria-label="Aparelho testado"><option value="fire">Fire TV Stick 4K Max</option><option value="shield">NVIDIA Shield</option></select>
+<p id="physicalCount"></p><div id="checks"></div>
+<h3>Registrar um problema</h3><textarea id="notes" placeholder="Título e ano • fonte escolhida • o que aconteceu • áudio/legenda • tempo aproximado" aria-label="Detalhes do problema"></textarea>
+<div class="actions"><button id="export">Exportar meu teste</button><button id="copy">Copiar meu teste</button><button id="reset">Limpar marcações deste aparelho</button></div><p id="feedback" role="status"></p></section>
+<section class="panel"><h2>O que está preservado</h2><p>Marca, logo, cores, PT-BR, menus DaNexus, Fonte Inteligente, aviso lateral, “Mudar fonte”, “Continuar aguardando”, contador, histórico, preferências e recomendações.</p><p class="privacy">Reprodução real, áudio PT-BR, troca de fonte e os formatos HDMI precisam de teste no aparelho. Um build aprovado não comprova esses resultados por si só.</p>
+<div class="actions"><a href="https://github.com/danilopagotto82/DaNexus-TV/releases">Todos os arquivos da entrega</a><a href="https://github.com/danilopagotto82/DaNexus-TV">Código e créditos das bases</a></div></section>
+<footer class="muted"><small>DaNexus • Fire e Shield são edições independentes. Bases NuvioMedia/NuvioTV e ysosrs123/NuvioTV-Fork, com os avisos e licenças preservados.</small></footer>
+<script>
+const byId=id=>document.getElementById(id);
+const checklist=[
+"Instala como atualização e mantém os perfis",
+"Abre sem fechar ou travar",
+"Logo, nome, cores e textos PT-BR estão corretos",
+"Menu e navegação funcionam com o controle da TV",
+"Recomendações e histórico aparecem no perfil correto",
+"Escolher uma fonte manualmente abre o player sem fechar o app",
+"O vídeo inicia e continua reproduzindo",
+"Áudio e legenda PT-BR estão disponíveis e corretos",
+"Mudar fonte funciona e mantém o ponto de reprodução quando aplicável",
+"Aviso lateral e contador aparecem na espera de fonte",
+"Continuar aguardando mantém a fonte atual",
+"Fallback tenta a próxima fonte sem abrir player externo",
+"Pausar, avançar, retroceder e sair funcionam",
+"Controle pelo celular funciona após pareamento",
+"Prévias e sincronização funcionam quando configuradas",
+"Formatos de áudio, HDR e Dolby Vision funcionam nos títulos e equipamentos compatíveis"
+];
+const storageKey="danexus-physical-v3";
+let state={};
+try{state=JSON.parse(localStorage.getItem(storageKey)||"{}")}catch{}
+function data(){const d=byId("device").value;state[d]??={checked:[],notes:""};return state[d]}
+function save(){try{localStorage.setItem(storageKey,JSON.stringify(state))}catch{byId("feedback").textContent="O navegador não permitiu salvar as marcações."}}
+function render(){const d=data();byId("checks").replaceChildren();checklist.forEach((text,i)=>{const label=document.createElement("label");label.className="check";const c=document.createElement("input");c.type="checkbox";c.checked=d.checked.includes(i);c.addEventListener("change",()=>{d.checked=c.checked?[...new Set([...d.checked,i])]:d.checked.filter(x=>x!==i);save();count()});const span=document.createElement("span");span.textContent=text;label.append(c,span);byId("checks").append(label)});byId("notes").value=d.notes;count()}
+function count(){byId("physicalCount").textContent=data().checked.length+"/"+checklist.length+" verificações marcadas por você";}
+function report(){return JSON.stringify({aparelho:byId("device").selectedOptions[0].text,data:new Date().toISOString(),verificados:data().checked.map(i=>checklist[i]),naoVerificados:checklist.filter((_,i)=>!data().checked.includes(i)),observacoes:data().notes},null,2)}
+byId("device").addEventListener("change",render);byId("notes").addEventListener("input",()=>{data().notes=byId("notes").value;save()});
+byId("export").onclick=()=>{const url=URL.createObjectURL(new Blob([report()],{type:"application/json"}));const a=document.createElement("a");a.href=url;a.download="DaNexus-teste-"+byId("device").value+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+byId("copy").onclick=async()=>{try{await navigator.clipboard.writeText(report());byId("feedback").textContent="Teste copiado. Cole no chat."}catch{byId("feedback").textContent="Não foi possível copiar. Use Exportar meu teste."}};
+byId("reset").onclick=()=>{if(confirm("Limpar as marcações e observações apenas deste aparelho?")){state[byId("device").value]={checked:[],notes:""};save();render()}};
+async function progress(){try{const r=await fetch("progress.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error();const p=await r.json();byId("statusText").textContent=p.status;byId("updated").textContent="Última atualização: "+new Date(p.updatedAt).toLocaleString("pt-BR",{timeZone:"America/Sao_Paulo"});const done=p.steps.filter(s=>s.status==="done").length;byId("bar").style.width=(done/p.steps.length*100)+"%";byId("count").textContent=done+"/"+p.steps.length+" etapas verificadas da entrega";byId("eta").textContent=p.eta||"";byId("steps").replaceChildren();p.steps.forEach(s=>{const e=document.createElement("span");e.className="step "+s.status;e.textContent=s.label;byId("steps").append(e)});byId("fireAvailability").textContent=p.fire.downloadVerified?"Download público conferido.":"Disponibilidade do download em conferência.";
+if(p.shield.downloadVerified){const a=byId("shieldDownload");a.href=p.shield.url;a.className="button primary";a.removeAttribute("aria-disabled");a.textContent="Baixar APK Shield";byId("shieldStatus").textContent=p.shield.status;byId("shieldMeta").textContent=p.shield.meta;byId("shieldHash").textContent="SHA-256: "+p.shield.sha256;byId("shieldAvailability").textContent="Download público conferido."}
+if(p.downloaderCode)byId("downloaderInfo").textContent="Código Downloader desta página: "+p.downloaderCode;
+}catch{byId("statusText").textContent="Não foi possível atualizar o painel. Confira os arquivos e notas em Releases.";}}
+render();progress();setInterval(progress,30000);
+</script></main></body></html>

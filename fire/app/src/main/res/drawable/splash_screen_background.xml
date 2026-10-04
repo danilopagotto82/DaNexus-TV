@@ -1,0 +1,4 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item><shape><solid android:color="@color/splash_background"/></shape></item>
+    <item android:width="300dp" android:height="100dp" android:gravity="center"><bitmap android:src="@drawable/danexus_wordmark" android:gravity="fill" android:filter="true"/></item>
+</layer-list>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="danexus_v2_title">Visual Nuvio V2</string>
+    <string name="danexus_v2_desc">Usar o visual do fork nt4 adaptado ao DaNexus: materiais, foco e paleta. Desligado: manter o visual atual.</string>
+    <string name="danexus_v2_style">Estilo do Nuvio V2</string>
+    <string name="danexus_v2_style_desc">Escolher vidro cinematográfico ou superfícies escuras.</string>
+    <string name="danexus_v2_glass">Vidro cinematográfico</string>
+    <string name="danexus_v2_dark">Escuro líquido</string>
+    <string name="danexus_v2_transparency">Transparência do vidro</string>
+    <string name="danexus_v2_transparency_desc">Ajustar a transparência mantendo o contraste de menus e caixas. Padrão: 60%.</string>
+    <string name="danexus_v2_focus">Foco cinematográfico</string>
+    <string name="danexus_v2_focus_desc">Realçar a opção em foco com uma borda luminosa. Desligado: usar realce suave.</string>
+    <string name="danexus_ui_scale">Escala da interface</string>
+    <string name="danexus_ui_scale_desc">Valores menores mostram mais conteúdo. Padrão: 95%. A barra ocupa espaço próprio e não cobre o banner.</string>
+    <string name="danexus_percent">%1$d%%</string>
+</resources>

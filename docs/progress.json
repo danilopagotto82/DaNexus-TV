@@ -1,0 +1,46 @@
+{
+  "updatedAt": "2026-10-04T17:12:00-03:00",
+  "status": "Fire validado no checkpoint; Shield nt4 em compilação.",
+  "eta": "Estimativa provisória: 2–3 horas de trabalho técnico. Meta 19:00 apertada; testes têm prioridade.",
+  "steps": [
+    {
+      "label": "Auditoria",
+      "status": "done"
+    },
+    {
+      "label": "Interface nt4",
+      "status": "active"
+    },
+    {
+      "label": "Build Shield",
+      "status": "pending"
+    },
+    {
+      "label": "Testes",
+      "status": "pending"
+    },
+    {
+      "label": "Smoke Shield",
+      "status": "pending"
+    },
+    {
+      "label": "APKs e assinatura",
+      "status": "pending"
+    },
+    {
+      "label": "Publicação",
+      "status": "pending"
+    },
+    {
+      "label": "Entrega móvel",
+      "status": "pending"
+    }
+  ],
+  "fire": {
+    "downloadVerified": false
+  },
+  "shield": {
+    "downloadVerified": false
+  },
+  "downloaderCode": null
+}
