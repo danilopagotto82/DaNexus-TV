@@ -11,10 +11,22 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import retrofit2.Response
 
 class TraktAuthServiceTest {
+    @Test
+    fun publicClientCanConnectWithoutClientSecret() {
+        val service = TraktAuthService(
+            context = mockk<Context>(relaxed = true),
+            traktApi = mockk<TraktApi>(),
+            traktAuthDataStore = mockk<TraktAuthDataStore>(),
+            authSessionNoticeDataStore = mockk<AuthSessionNoticeDataStore>()
+        )
+        assertTrue(service.hasRequiredCredentials())
+    }
+
     @Test
     fun `refresh token 400 clears credentials and prevents another refresh`() = runTest {
         val traktApi = mockk<TraktApi>()

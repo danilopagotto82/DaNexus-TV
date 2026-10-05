@@ -151,6 +151,34 @@ class HomeEnrichmentRepositoryBoundaryTest {
         assertEquals(true, itemId in vm.backgroundMetaPrefetchedIds)
     }
 
+    @Test
+    fun detailsSourcePreferenceIsIndependentOfHomeEnrichment() = runBlocking {
+        val requested = mutableListOf<String>()
+        val api = mockk<AddonApi>()
+        coEvery { api.getMeta(any()) } coAnswers {
+            requested += firstArg<String>()
+            Response.success(MetaResponseDto(meta = MetaDto(id = itemId, type = "series", name = "Source")))
+        }
+        val vm = newViewModel(realRepository(api), preferExternalDetails = false)
+        vm.externalMetaPrefetchEnabled = true
+        vm.prefetchDetailsMeta(item(itemId))
+        assertEquals(true, requested.single().startsWith(catalogSourceUrl))
+    }
+
+    @Test
+    fun externalDetailsPreferenceAppliesWhenHomeEnrichmentIsOff() = runBlocking {
+        val requested = mutableListOf<String>()
+        val api = mockk<AddonApi>()
+        coEvery { api.getMeta(any()) } coAnswers {
+            requested += firstArg<String>()
+            Response.success(MetaResponseDto(meta = MetaDto(id = itemId, type = "series", name = "External")))
+        }
+        val vm = newViewModel(realRepository(api), preferExternalDetails = true)
+        vm.externalMetaPrefetchEnabled = false
+        vm.prefetchDetailsMeta(item(itemId))
+        assertEquals(true, requested.single().startsWith("https://meta.example"))
+    }
+
     private suspend fun focusAndSettle(viewModel: HomeViewModel, item: MetaPreview) {
         viewModel.onItemFocusPipeline(item)
         delay(HomeViewModel.EXTERNAL_META_PREFETCH_FOCUS_DEBOUNCE_MS + 400)
@@ -222,7 +250,7 @@ class HomeEnrichmentRepositoryBoundaryTest {
         sourceAddonBaseUrl = catalogSourceUrl
     )
 
-    private fun newViewModel(metaRepository: MetaRepositoryImpl): HomeViewModel {
+    private fun newViewModel(metaRepository: MetaRepositoryImpl, preferExternalDetails: Boolean = false): HomeViewModel {
         val profileManager = mockk<com.nuvio.tv.core.profile.ProfileManager>(relaxed = true) {
             every { activeProfileReady } returns MutableStateFlow(false)
             every { activeProfileId } returns MutableStateFlow(1)
@@ -246,7 +274,9 @@ class HomeEnrichmentRepositoryBoundaryTest {
             libraryRepository = mockk(relaxed = true),
             metaRepository = metaRepository,
             collectionsDataStore = mockk(relaxed = true),
-            layoutPreferenceDataStore = mockk(relaxed = true),
+            layoutPreferenceDataStore = mockk(relaxed = true) {
+                every { preferExternalMetaAddonDetail } returns MutableStateFlow(preferExternalDetails)
+            },
             playerSettingsDataStore = mockk(relaxed = true),
             tmdbSettingsDataStore = mockk(relaxed = true),
             mdbListSettingsDataStore = mockk(relaxed = true),

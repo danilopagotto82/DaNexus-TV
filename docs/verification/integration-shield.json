@@ -1,0 +1,25 @@
+{
+  "status": "APK_VERIFIED",
+  "edition": "Shield",
+  "version": "1.1.0-beta-nt4-danexus.3",
+  "versionCode": 1460,
+  "package": "com.danexus.tv.shield.debug",
+  "abis": [
+    "arm64-v8a"
+  ],
+  "certSha256": "77066ec7da0b758bbab4304a2ae64e22ed0f381d1ed29f85abfb1be3d26f1419",
+  "path": "D:\\NEXUS_7\\development\\nuvio\\entrega\\FASE12\\integration-20261005\\DaNexus-Shield-1.1.0-beta-nt4-danexus.3-arm64-v8a.apk",
+  "sha256": "94f002577ec51f1c1fada50942daacc6dbc577d431142b8886ce52125314cf32",
+  "size": 87713552,
+  "deviceValidation": "PENDING",
+  "mdblist": "CLIENT_ID_MISSING",
+  "at": "2026-10-05T03:23:53.169445+00:00",
+  "sourceCommit": "c348be8002d1e20771d9a8d8cf97ea26278a87a6",
+  "sourceAsset": "D:\\NEXUS_7\\development\\nuvio\\entrega\\FASE12\\integration-20261005\\DaNexus-Shield-1.1.0-beta-nt4-danexus.3-source.zip",
+  "sourceSha256": "c85ed55e8928a0a1fe84f016b2ba1261b6af041569e44c80486f2cf0c0f94505",
+  "tag": "v1.1.0-beta-nt4-danexus.3",
+  "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.3/DaNexus-Shield-1.1.0-beta-nt4-danexus.3-arm64-v8a.apk",
+  "sourceUrl": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.3/DaNexus-Shield-1.1.0-beta-nt4-danexus.3-source.zip",
+  "tests": 84,
+  "failures": 0
+}

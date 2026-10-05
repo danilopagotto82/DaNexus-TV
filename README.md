@@ -12,3 +12,8 @@ Para compilar, use JDK 21 e o SDK/NDK indicados no projeto. Configure propriedad
 As configurações particulares, credenciais e a chave de assinatura não estão neste repositório.
 
 Os APKs distribuídos atualizam os pacotes DaNexus existentes da respectiva edição. A homologação visual e o teste completo de reprodução no aparelho continuam pendentes do Dan.
+
+
+## Integrações e arte — FASE 12
+
+Atualizações de Trakt e acabamento nas duas edições; correção da seleção de arte na Shield. MDBList aguarda o Client ID do aplicativo. Validação nos aparelhos permanece pendente.

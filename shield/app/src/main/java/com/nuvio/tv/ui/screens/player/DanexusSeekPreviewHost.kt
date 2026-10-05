@@ -83,16 +83,16 @@ internal fun DanexusSeekPreviewHost(viewModel: PlayerViewModel, showSync: Boolea
     }
     @Composable fun preview() {
         frame?.let { bitmap ->
-            Column(Modifier.width(224.dp).clip(RoundedCornerShape(16.dp))
-                .background(Brush.verticalGradient(listOf(Color(0xE61D2841), Color(0xEE070D1A))))
-                .border(1.dp, Color(0xFF67DDED).copy(alpha = .55f), RoundedCornerShape(16.dp)).padding(7.dp),
+            Column(Modifier.width(192.dp).clip(RoundedCornerShape(12.dp))
+                .background(Brush.verticalGradient(listOf(Color(0xE6090A0D), Color(0xEE080F19))))
+                .border(1.dp, Color.White.copy(alpha = .28f), RoundedCornerShape(12.dp)).padding(6.dp),
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(bitmap.asImageBitmap(), stringResource(R.string.danexus_seek_frame), Modifier.fillMaxWidth().aspectRatio(16f/9f).clip(RoundedCornerShape(10.dp)))
                 Text(stringResource(R.string.danexus_seek_time, previewTime(frameMs)), Modifier.padding(top = 4.dp))
             }
         }
     }
-    if (visible && !showSync && frame != null) Box(Modifier.fillMaxSize().padding(bottom = 185.dp), contentAlignment = Alignment.BottomCenter) { preview() }
+    if (visible && !showSync && frame != null) Box(Modifier.fillMaxSize().padding(bottom = 112.dp), contentAlignment = Alignment.BottomCenter) { preview() }
     if (showSync) NuvioDialog(onDismiss = onDismissSync, title = stringResource(R.string.danexus_seek_sync),
         subtitle = stringResource(R.string.danexus_seek_sync_desc), width = 560.dp) {
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {

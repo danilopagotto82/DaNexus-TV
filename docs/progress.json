@@ -1,26 +1,10 @@
 {
-  "updatedAt": "2026-10-04T21:46:21.209557-03:00",
-  "status": "Revisão 13.1 entregue: APKs, testes essenciais e downloads conferidos.",
-  "eta": "Aprovação visual e homologação completa de reprodução pendentes do Dan. A FASE 12 permanece aberta.",
+  "updatedAt": "2026-10-05T00:49:05.623429-03:00",
+  "status": "Correções de Trakt e arte entregues para validação. MDBList aguarda Client ID.",
+  "eta": "FASE 12 aberta: validar login Trakt e alterações nos aparelhos; concluir configuração MDBList.",
   "steps": [
     {
-      "label": "Revisão do visual",
-      "status": "done"
-    },
-    {
-      "label": "Build Shield",
-      "status": "done"
-    },
-    {
-      "label": "Build Fire TV",
-      "status": "done"
-    },
-    {
-      "label": "Testes essenciais",
-      "status": "done"
-    },
-    {
-      "label": "Navegação Shield",
+      "label": "Correções e testes",
       "status": "done"
     },
     {
@@ -29,24 +13,30 @@
     },
     {
       "label": "Downloads públicos",
-      "status": "done"
+      "status": "active"
     },
     {
-      "label": "Checklist no celular",
-      "status": "done"
+      "label": "Trakt nos aparelhos",
+      "status": "pending"
+    },
+    {
+      "label": "Configuração MDBList",
+      "status": "pending"
     }
   ],
   "fire": {
-    "downloadVerified": true,
-    "status": "Download público conferido. Teste direto no Fire TV pendente.",
-    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.4/DaNexus-FireTV-1.1.0-beta.4-danexus.4-armeabi-v7a.apk"
+    "downloadVerified": false,
+    "status": "6 testes focados sem falhas. Pareamento Trakt pendente; MDBList aguarda configuração.",
+    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.5/DaNexus-FireTV-1.1.0-beta.4-danexus.5-armeabi-v7a.apk",
+    "meta": "Versão: 1.1.0-beta.4-danexus.5 · com.danexus.tv.fire.debug · armeabi-v7a",
+    "sha256": "5b32d66465144a4ae743351f9b2621e3f77044bddb1eca56e25503053e7b026a"
   },
   "shield": {
-    "downloadVerified": true,
-    "status": "119 testes essenciais sem falhas. APK final instalado; recomendações e teste breve de reprodução conferidos na Shield.",
-    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.2/DaNexus-Shield-1.1.0-beta-nt4-danexus.2-arm64-v8a.apk",
-    "meta": "Versão: 1.1.0-beta-nt4-danexus.2 · Pacote: com.danexus.tv.shield.debug · arm64-v8a · 87.710.804 bytes",
-    "sha256": "7809b62d71bc8109989425f3da6cdee4b1fed48ea301b5c981d2bb6ede68e5e6"
+    "downloadVerified": false,
+    "status": "84 testes focados sem falhas. Pareamento Trakt pendente; MDBList aguarda configuração.",
+    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.3/DaNexus-Shield-1.1.0-beta-nt4-danexus.3-arm64-v8a.apk",
+    "meta": "Versão: 1.1.0-beta-nt4-danexus.3 · com.danexus.tv.shield.debug · arm64-v8a",
+    "sha256": "94f002577ec51f1c1fada50942daacc6dbc577d431142b8886ce52125314cf32"
   },
   "downloaderCode": null,
   "physicalApproval": "PENDING_DAN"

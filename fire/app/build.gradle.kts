@@ -106,8 +106,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1070
-        versionName = "1.1.0-beta.4-danexus.4"
+        versionCode = 1071
+        versionName = "1.1.0-beta.4-danexus.5"
         resValue("string", "app_name", "DaNexus")
 
         buildConfigField("String", "PARENTAL_GUIDE_API_URL", "\"${localProperties.getProperty("PARENTAL_GUIDE_API_URL", "")}\"")
@@ -115,13 +115,19 @@ android {
         buildConfigField("String", "TRAILER_API_URL", "\"${localProperties.getProperty("TRAILER_API_URL", "")}\"")
         buildConfigField("String", "IMDB_RATINGS_API_BASE_URL", "\"${localProperties.getProperty("IMDB_RATINGS_API_BASE_URL", "")}\"")
         buildConfigField("String", "IMDB_TAPFRAME_API_BASE_URL", "\"${localProperties.getProperty("IMDB_TAPFRAME_API_BASE_URL", "")}\"")
-        buildConfigField("String", "TRAKT_CLIENT_ID", "\"${localProperties.getProperty("TRAKT_CLIENT_ID", "")}\"")
-        buildConfigField("String", "TRAKT_CLIENT_SECRET", "\"${localProperties.getProperty("TRAKT_CLIENT_SECRET", "")}\"")
+        buildConfigField("String", "TRAKT_CLIENT_ID", buildConfigString(
+            providers.environmentVariable("TRAKT_CLIENT_ID").orNull?.trim()?.takeIf { it.isNotBlank() }
+                ?: resolveProperty(devProperties, localProperties, "TRAKT_CLIENT_ID")))
+        buildConfigField("String", "TRAKT_CLIENT_SECRET", buildConfigString(
+            providers.environmentVariable("TRAKT_CLIENT_SECRET").orNull?.trim()?.takeIf { it.isNotBlank() }
+                ?: resolveProperty(devProperties, localProperties, "TRAKT_CLIENT_SECRET")))
         buildConfigField("String", "TRAKT_API_URL", "\"${localProperties.getProperty("TRAKT_API_URL", "https://api.trakt.tv/")}\"")
         buildConfigField("String", "TRAKT_REDIRECT_URI", "\"${localProperties.getProperty("TRAKT_REDIRECT_URI", "urn:ietf:wg:oauth:2.0:oob")}\"")
         buildConfigField("String", "SIMKL_CLIENT_ID", buildConfigString(resolveProperty(devProperties, localProperties, "SIMKL_CLIENT_ID")))
         buildConfigField("String", "SIMKL_APP_NAME", buildConfigString(resolveProperty(devProperties, localProperties, "SIMKL_APP_NAME", "nuvio")))
-        buildConfigField("String", "MDBLIST_CLIENT_ID", buildConfigString(resolveProperty(devProperties, localProperties, "MDBLIST_CLIENT_ID")))
+        buildConfigField("String", "MDBLIST_CLIENT_ID", buildConfigString(
+            providers.environmentVariable("MDBLIST_CLIENT_ID").orNull?.trim()?.takeIf { it.isNotBlank() }
+                ?: resolveProperty(devProperties, localProperties, "MDBLIST_CLIENT_ID")))
         buildConfigField("String", "TMDB_API_KEY", "\"${localProperties.getProperty("TMDB_API_KEY", "")}\"")
         buildConfigField("String", "TV_LOGIN_WEB_BASE_URL", "\"${localProperties.getProperty("TV_LOGIN_WEB_BASE_URL", "https://nuvio.tv/tv-login")}\"")
         buildConfigField("String", "DEVICE_LOGIN_WEB_BASE_URL", "\"${localProperties.getProperty("DEVICE_LOGIN_WEB_BASE_URL", "https://nuvio.tv/link")}\"")

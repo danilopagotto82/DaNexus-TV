@@ -1,0 +1,26 @@
+{
+  "status": "APK_VERIFIED",
+  "edition": "Fire TV",
+  "version": "1.1.0-beta.4-danexus.5",
+  "versionCode": 1071,
+  "package": "com.danexus.tv.fire.debug",
+  "abis": [
+    "armeabi-v7a"
+  ],
+  "certSha256": "77066ec7da0b758bbab4304a2ae64e22ed0f381d1ed29f85abfb1be3d26f1419",
+  "path": "D:\\NEXUS_7\\development\\nuvio\\entrega\\FASE12\\integration-20261005\\DaNexus-FireTV-1.1.0-beta.4-danexus.5-armeabi-v7a.apk",
+  "sha256": "5b32d66465144a4ae743351f9b2621e3f77044bddb1eca56e25503053e7b026a",
+  "size": 81185844,
+  "deviceValidation": "PENDING",
+  "mdblist": "CLIENT_ID_MISSING",
+  "tmdbChanges": "SHIELD_ONLY",
+  "at": "2026-10-05T03:47:27.248523+00:00",
+  "sourceCommit": "e413c1a11f0bf596c7d6e9c4d240e7bd38f0e80f",
+  "sourceAsset": "D:\\NEXUS_7\\development\\nuvio\\entrega\\FASE12\\integration-20261005\\DaNexus-FireTV-1.1.0-beta.4-danexus.5-source.zip",
+  "sourceSha256": "b1b5b82b3369938bd9244423d29a8c99a9b049dac9f1e21f22f8945e705ea72e",
+  "tag": "v1.1.0-beta.4-danexus.5",
+  "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.5/DaNexus-FireTV-1.1.0-beta.4-danexus.5-armeabi-v7a.apk",
+  "sourceUrl": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.5/DaNexus-FireTV-1.1.0-beta.4-danexus.5-source.zip",
+  "tests": 6,
+  "failures": 0
+}

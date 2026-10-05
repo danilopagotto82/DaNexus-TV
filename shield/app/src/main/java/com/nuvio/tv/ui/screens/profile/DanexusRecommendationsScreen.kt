@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -307,5 +308,16 @@ private fun RecommendationArtwork(artwork: String?, modifier: Modifier) {
         AsyncImage(artwork, null, Modifier.matchParentSize(), contentScale = ContentScale.Crop, alignment = Alignment.CenterEnd)
         Box(Modifier.matchParentSize().background(DanexusCinematic.backdropBrush))
         Box(Modifier.matchParentSize().background(DanexusCinematic.bottomScrim))
+        // Feather the outer edges into the screen, preserving the image in the middle.
+        Box(Modifier.matchParentSize().background(Brush.horizontalGradient(
+            0f to Color.Transparent, 0.72f to Color.Transparent,
+            0.90f to DanexusCinematic.black.copy(alpha = 0.35f),
+            1f to DanexusCinematic.black.copy(alpha = 0.92f)
+        )))
+        Box(Modifier.matchParentSize().background(Brush.verticalGradient(
+            0f to DanexusCinematic.black.copy(alpha = 0.8f),
+            0.12f to Color.Transparent, 0.78f to Color.Transparent,
+            1f to DanexusCinematic.black.copy(alpha = 0.65f)
+        )))
     }
 }

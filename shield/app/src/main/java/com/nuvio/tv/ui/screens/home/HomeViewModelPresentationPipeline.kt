@@ -830,7 +830,9 @@ internal fun HomeViewModel.preloadAdjacentItemPipeline(item: MetaPreview) {
  */
 internal suspend fun HomeViewModel.prefetchDetailsMeta(item: MetaPreview) {
     val source = item.sourceAddonBaseUrl?.takeIf(String::isNotBlank)
-    val preferred = if (!externalMetaPrefetchEnabled && source != null) {
+    // Match Details' own preference, independently of Home's enrichment toggle.
+    val preferExternalDetails = layoutPreferenceDataStore.preferExternalMetaAddonDetail.first()
+    val preferred = if (!preferExternalDetails && source != null) {
         metaRepository.getMeta(source, item.apiType, item.id).first { it !is NetworkResult.Loading }
     } else null
     val result = if (preferred is NetworkResult.Success) preferred else {

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.nuvio.tv.data.local.TmdbSettingsDataStore
 import com.nuvio.tv.data.local.ContinueWatchingEnrichmentCache
 import com.nuvio.tv.data.trailer.TrailerService
+import com.nuvio.tv.domain.model.DEFAULT_TMDB_LANGUAGE
 import com.nuvio.tv.domain.model.TmdbSettings
 import com.nuvio.tv.domain.repository.MetaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,8 +46,8 @@ class TmdbSettingsViewModel @Inject constructor(
                 update { dataStore.setEnrichContinueWatching(event.enabled) }
             }
             is TmdbSettingsEvent.SetLanguage -> update {
-                val newLanguage = event.language.ifBlank { "en" }
-                val currentLanguage = _uiState.value.language.ifBlank { "en" }
+                val newLanguage = event.language.ifBlank { DEFAULT_TMDB_LANGUAGE }
+                val currentLanguage = _uiState.value.language.ifBlank { DEFAULT_TMDB_LANGUAGE }
                 dataStore.setLanguage(newLanguage)
                 if (!newLanguage.equals(currentLanguage, ignoreCase = true)) {
                     trailerService.clearCache()
@@ -74,7 +75,7 @@ data class TmdbSettingsUiState(
     val enabled: Boolean = false,
     val modernHomeEnabled: Boolean = false,
     val enrichContinueWatching: Boolean = true,
-    val language: String = "en",
+    val language: String = DEFAULT_TMDB_LANGUAGE,
     val useArtwork: Boolean = true,
     val useBasicInfo: Boolean = true,
     val useDetails: Boolean = true,

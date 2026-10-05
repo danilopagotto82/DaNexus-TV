@@ -458,7 +458,9 @@ class HomeEnrichmentRetryTest {
             libraryRepository = mockk(relaxed = true),
             metaRepository = metaRepository,
             collectionsDataStore = mockk(relaxed = true),
-            layoutPreferenceDataStore = mockk(relaxed = true),
+            layoutPreferenceDataStore = mockk(relaxed = true) {
+                every { preferExternalMetaAddonDetail } returns MutableStateFlow(true)
+            },
             playerSettingsDataStore = mockk(relaxed = true),
             tmdbSettingsDataStore = mockk(relaxed = true),
             mdbListSettingsDataStore = mockk(relaxed = true),
