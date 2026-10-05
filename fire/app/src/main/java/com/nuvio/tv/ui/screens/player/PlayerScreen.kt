@@ -181,7 +181,8 @@ fun PlayerScreen(
     onPlaybackErrorBack: () -> Unit = { onBackPress(null, null, null, false, false) },
     onPlaybackEnded: ((nextVideoId: String?, nextSeason: Int?, nextEpisode: Int?, exitReason: PlayerExitReason?) -> Unit)? = null,
     onPlayRecommendation: (PostPlayRecommendation, manualSelection: Boolean) -> Unit = { _, _ -> },
-    onOpenRecommendationDetails: (PostPlayRecommendation) -> Unit = {}
+    onOpenRecommendationDetails: (PostPlayRecommendation) -> Unit = {},
+    onNavigateToDetail: (String, String, String?) -> Unit = { _, _, _ -> }
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var showDanexusPreviewSync by remember { mutableStateOf(false) }
@@ -317,6 +318,10 @@ fun PlayerScreen(
             return@handleBackPress
         }
         if (externalHandoffInProgress) return@handleBackPress
+        if (uiState.pendingPreviewSeekPosition != null) {
+            viewModel.onEvent(PlayerEvent.OnCancelPreviewSeek)
+            return@handleBackPress
+        }
         if (postPlayRecommendationState.canReturnToPlayer && !uiState.playbackEnded) {
             returnToPlayerFromPostPlay()
             viewModel.hideControls()
@@ -778,12 +783,21 @@ fun PlayerScreen(
                         uiState.error != null
                 if (panelOrDialogOpen) return@onKeyEvent false
 
+                if (uiState.pendingPreviewSeekPosition != null &&
+                    keyEvent.nativeKeyEvent.action == KeyEvent.ACTION_DOWN &&
+                    keyEvent.nativeKeyEvent.keyCode in setOf(
+                        KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_NUMPAD_ENTER,
+                        KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_PLAY
+                    )) {
+                    if (keyEvent.nativeKeyEvent.repeatCount == 0) viewModel.onEvent(PlayerEvent.OnCommitPreviewSeek)
+                    return@onKeyEvent true
+                }
+
                 if (keyEvent.nativeKeyEvent.action == KeyEvent.ACTION_UP) {
                     when (keyEvent.nativeKeyEvent.keyCode) {
                         KeyEvent.KEYCODE_DPAD_LEFT,
                         KeyEvent.KEYCODE_DPAD_RIGHT -> {
                             if (!uiState.showControls) {
-                                viewModel.onEvent(PlayerEvent.OnCommitPreviewSeek)
                                 return@onKeyEvent true
                             }
                         }
@@ -794,22 +808,13 @@ fun PlayerScreen(
                 if (keyEvent.nativeKeyEvent.action == KeyEvent.ACTION_DOWN) {
                     if (uiState.showPauseOverlay) {
                         when (keyEvent.nativeKeyEvent.keyCode) {
-                            KeyEvent.KEYCODE_DPAD_CENTER,
-                            KeyEvent.KEYCODE_ENTER,
-                            KeyEvent.KEYCODE_NUMPAD_ENTER,
-                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE,
-                            KeyEvent.KEYCODE_MEDIA_PLAY -> {
-                                // Resume directly from pause overlay in one click.
-                                viewModel.onEvent(PlayerEvent.OnPlayPause)
+                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_PLAY -> {
+                                if (keyEvent.nativeKeyEvent.repeatCount == 0) viewModel.onEvent(PlayerEvent.OnPlayPause)
+                                return@onKeyEvent true
                             }
-                            KeyEvent.KEYCODE_MEDIA_PAUSE,
-                            KeyEvent.KEYCODE_MEDIA_STOP -> {
-                            }
-                            else -> {
-                                viewModel.onEvent(PlayerEvent.OnDismissPauseOverlay)
-                            }
+                            KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_MEDIA_STOP -> return@onKeyEvent true
+                            else -> return@onKeyEvent false
                         }
-                        return@onKeyEvent true
                     }
                     when (keyEvent.nativeKeyEvent.keyCode) {
                         KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_NUMPAD_ENTER -> {
@@ -1129,6 +1134,12 @@ fun PlayerScreen(
             type = uiState.contentType,
             description = uiState.description,
             cast = uiState.castMembers,
+            directors = uiState.directorMembers,
+            onResume = { viewModel.onEvent(PlayerEvent.OnPlayPause) },
+            onNavigateToDetail = { id, type, addon ->
+                viewModel.stopAndRelease()
+                onNavigateToDetail(id, type, addon)
+            },
             showClock = !viewModel.playbackTimeline.collectAsState().value.isLive,
             modifier = Modifier
                 .fillMaxSize()
@@ -2791,7 +2802,6 @@ private fun ProgressBar(
                     when (keyEvent.nativeKeyEvent.keyCode) {
                         KeyEvent.KEYCODE_DPAD_LEFT,
                         KeyEvent.KEYCODE_DPAD_RIGHT -> {
-                            onSeekCommit()
                             return@onPreviewKeyEvent true
                         }
                     }
@@ -2801,6 +2811,10 @@ private fun ProgressBar(
                 // testing additional key handling for DPAD_LEFT and DPAD_RIGHT to allow seek in focus (check)
                 if (keyEvent.nativeKeyEvent.action == KeyEvent.ACTION_DOWN) {
                     when (keyEvent.nativeKeyEvent.keyCode) {
+                        KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_NUMPAD_ENTER -> {
+                            if (keyEvent.nativeKeyEvent.repeatCount == 0) onSeekCommit()
+                            true
+                        }
                         KeyEvent.KEYCODE_DPAD_DOWN -> {
                             if (downFocusRequester != null) {
                                 try {

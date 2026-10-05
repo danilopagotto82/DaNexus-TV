@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-05T03:45:12.432720-03:00",
-  "status": "MDBList, arte PT-BR e atualizador DaNexus prontos nas duas edições.",
+  "updatedAt": "2026-10-05T15:26:02.896455-03:00",
+  "status": "Arte PT-BR, prévias com confirmação e atores/diretores atualizados nas duas edições.",
   "eta": "Instalar a atualização, parear Trakt/MDBList e conferir a arte PT-BR nos aparelhos.",
   "steps": [
     {
@@ -13,7 +13,7 @@
     },
     {
       "label": "Downloads públicos",
-      "status": "done"
+      "status": "active"
     },
     {
       "label": "Trakt nos aparelhos",
@@ -25,18 +25,18 @@
     }
   ],
   "fire": {
-    "downloadVerified": true,
-    "status": "144 testes focados sem falhas. MDBList configurado; conectar as contas após atualizar.",
-    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.6/DaNexus-FireTV-1.1.0-beta.4-danexus.6-armeabi-v7a.apk",
-    "meta": "Versão: 1.1.0-beta.4-danexus.6 · com.danexus.tv.fire.debug · armeabi-v7a",
-    "sha256": "a25b27c483be380064a91c142649c9c11cf808d2441acc2f44f8cf5433b1266f"
+    "downloadVerified": false,
+    "status": "180 testes focados sem falhas. Arte, prévias e pessoas prontas para conferir no aparelho.",
+    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.7/DaNexus-FireTV-1.1.0-beta.4-danexus.7-armeabi-v7a.apk",
+    "meta": "Versão: 1.1.0-beta.4-danexus.7 · com.danexus.tv.fire.debug · armeabi-v7a",
+    "sha256": "8252b011e77f7d56f8678d13224f4708823df6f6138136ab46340a94f20041e0"
   },
   "shield": {
-    "downloadVerified": true,
-    "status": "89 testes focados sem falhas. MDBList configurado; conectar as contas após atualizar.",
-    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.4/DaNexus-Shield-1.1.0-beta-nt4-danexus.4-arm64-v8a.apk",
-    "meta": "Versão: 1.1.0-beta-nt4-danexus.4 · com.danexus.tv.shield.debug · arm64-v8a",
-    "sha256": "37e927db0d566a8d9fcb69fc440524f13cfd94e8d6de994ca497d2971c94ba0d"
+    "downloadVerified": false,
+    "status": "206 testes focados sem falhas. Arte, prévias e pessoas prontas para conferir no aparelho.",
+    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.5/DaNexus-Shield-1.1.0-beta-nt4-danexus.5-arm64-v8a.apk",
+    "meta": "Versão: 1.1.0-beta-nt4-danexus.5 · com.danexus.tv.shield.debug · arm64-v8a",
+    "sha256": "56252c371e32e01490af7ca8f5d807f86099b5166ebfcfd27c0448f858d860cc"
   },
   "downloaderCode": null,
   "physicalApproval": "PENDING_DAN"

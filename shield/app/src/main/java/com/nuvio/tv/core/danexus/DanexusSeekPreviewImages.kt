@@ -13,16 +13,19 @@ import okhttp3.Request
 import tv.seekr.previews.core.SeekrTile
 import java.util.concurrent.TimeUnit
 
-/** One compressed sheet, decoded only at the requested tile, for low-memory Fire TV. */
+/** A bounded neighborhood cache: at most 8 MiB of compressed sheets and twelve small RGB tiles. */
 class DanexusSeekPreviewImages {
-    private var sheetUrl: String? = null
-    private var sheetBytes: ByteArray? = null
+    private val sheets = LinkedHashMap<String, ByteArray>(2, 0.75f, true)
+    private val frames = LinkedHashMap<String, Bitmap>(12, 0.75f, true)
     private val mutex = Mutex()
     suspend fun image(tile: SeekrTile): Bitmap? = withContext(Dispatchers.IO) {
         mutex.withLock {
             if (!DanexusSeekPreviewPolicy.trustedTile(tile.sheetUrl)) return@withLock null
             if (tile.w !in 1..1024 || tile.h !in 1..576 || tile.x < 0 || tile.y < 0) return@withLock null
-            if (sheetUrl != tile.sheetUrl) {
+            val frameKey = listOf(tile.sheetUrl, tile.x, tile.y, tile.w, tile.h)
+                .joinToString("#")
+            frames[frameKey]?.let { return@withLock it }
+            if (tile.sheetUrl !in sheets) {
                 val bytes = runCatching {
                     http.newCall(Request.Builder().url(tile.sheetUrl).build()).execute().use { response ->
                         if (!response.isSuccessful) return@use null
@@ -40,18 +43,32 @@ class DanexusSeekPreviewImages {
                         }
                     }
                 }.getOrNull() ?: return@withLock null
-                sheetBytes = bytes; sheetUrl = tile.sheetUrl
+                while (sheets.isNotEmpty() &&
+                    (sheets.size >= 2 || sheets.values.sumOf { it.size } + bytes.size > MAX_BYTES)) {
+                    sheets.remove(sheets.keys.first())
+                }
+                sheets[tile.sheetUrl] = bytes
             }
-            val bytes = sheetBytes ?: return@withLock null
-            runCatching {
+            val bytes = sheets[tile.sheetUrl] ?: return@withLock null
+            val bitmap = runCatching {
                 @Suppress("DEPRECATION")
                 val decoder = BitmapRegionDecoder.newInstance(bytes, 0, bytes.size, false) ?: return@runCatching null
                 try {
                     if (tile.x.toLong() + tile.w > decoder.width || tile.y.toLong() + tile.h > decoder.height) return@runCatching null
+                    var sample = 1
+                    while (tile.w / sample > 384 || tile.h / sample > 216) sample *= 2
                     decoder.decodeRegion(Rect(tile.x, tile.y, tile.x + tile.w, tile.y + tile.h),
-                        BitmapFactory.Options().apply { inPreferredConfig = Bitmap.Config.RGB_565 })
+                        BitmapFactory.Options().apply {
+                            inPreferredConfig = Bitmap.Config.RGB_565
+                            inSampleSize = sample
+                        })
                 } finally { decoder.recycle() }
             }.getOrNull()
+            if (bitmap != null) {
+                frames[frameKey] = bitmap
+                while (frames.size > 12) frames.remove(frames.keys.first())
+            }
+            bitmap
         }
     }
     companion object {

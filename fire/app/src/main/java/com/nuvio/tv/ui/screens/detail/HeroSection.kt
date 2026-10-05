@@ -162,7 +162,6 @@ fun HeroContentSection(
             !directorLine.isNullOrBlank() -> {
                 if (isSeriesApi) strCreator.format(directorLine) else strDirector.format(directorLine)
             }
-            !writerLine.isNullOrBlank() -> strWriter.format(writerLine)
             else -> null
         }
     }

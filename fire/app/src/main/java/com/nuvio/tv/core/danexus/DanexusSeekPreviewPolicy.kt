@@ -24,4 +24,17 @@ object DanexusSeekPreviewPolicy {
     fun validKeyFormat(key: String) = Regex("sk_live_[a-fA-F0-9]{64}").matches(key.trim())
     fun offset(value: Int) = value.coerceIn(-120_000, 120_000)
     fun framePosition(cueMs: Long, offsetMs: Int) = (cueMs - offsetMs).coerceAtLeast(0L)
+
+    /** Fixed five slots avoid duplicates at the beginning/end of a film. */
+    fun neighbors(positionMs: Long, durationMs: Long, stepMs: Long = 10_000L): List<Long?> {
+        if (durationMs <= 0L) return List(5) { null }
+        val position = positionMs.coerceIn(0L, durationMs - 1L)
+        val step = stepMs.coerceIn(1_000L, 300_000L)
+        return (-2..2).map { index ->
+            val delta = index * step
+            if (delta < 0 && position < -delta) null
+            else if (delta > 0 && position > durationMs - 1L - delta) null
+            else position + delta
+        }
+    }
 }

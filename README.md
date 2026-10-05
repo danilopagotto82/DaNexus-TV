@@ -16,4 +16,4 @@ Os APKs distribuídos atualizam os pacotes DaNexus existentes da respectiva edi�
 
 ## Integrações e arte — FASE 12
 
-Trakt e MDBList configurados nas duas edições, com seleção de arte PT-BR na Home e nos detalhes. O atualizador verifica os releases DaNexus ao abrir ou voltar ao app, mostra as mudanças no topo e permite baixar e instalar. A API do MDBList aceitou o Client ID no fluxo de aparelho sem Client Secret. Atualize o APK correspondente e conecte as contas pelo menu da TV. A validação visual nos aparelhos permanece pendente.
+Corrigida a configuração nativa TMDB nos dois APKs e a substituição tardia de arte localizada por logos dos addons. Consultas reais confirmaram logos PT-BR para os três títulos relatados. Prévia em faixa com confirmação e pessoas selecionáveis na pausa; roteiristas ocultos. Trakt, MDBList e atualizador DaNexus preservados. A validação visual dos novos APKs nos aparelhos permanece pendente.

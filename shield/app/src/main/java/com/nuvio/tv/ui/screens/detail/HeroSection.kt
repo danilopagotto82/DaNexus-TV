@@ -149,8 +149,8 @@ fun HeroContentSection(
         meta.apiType.equals("series", ignoreCase = true) || meta.apiType.equals("tv", ignoreCase = true)
     }
     var failedLogoUrls by remember(meta.id, meta.apiType) { mutableStateOf(emptySet<String>()) }
-    // Keep the Home title artwork stable while Details receives staged metadata.
-    val logoUrl = sequenceOf(heroLogoUrl, meta.logo)
+    // Fresh detail metadata can contain a localized TMDB logo; Home artwork is only a fallback.
+    val logoUrl = sequenceOf(meta.logo, heroLogoUrl)
         .firstOrNull { !it.isNullOrBlank() && it !in failedLogoUrls }
     val cachedLogo = remember(context, logoUrl) {
         logoUrl?.let { context.imageLoader.memoryCache?.get(MemoryCache.Key(titleLogoCacheKey(it))) }
@@ -187,7 +187,6 @@ fun HeroContentSection(
             !directorLine.isNullOrBlank() -> {
                 if (isSeriesApi) strCreator.format(directorLine) else strDirector.format(directorLine)
             }
-            !writerLine.isNullOrBlank() -> strWriter.format(writerLine)
             else -> null
         }
     }
@@ -417,19 +416,18 @@ fun HeroContentSection(
                     Column(modifier = if (v2Hero) Modifier else Modifier.animateContentSize()) {
                         if (mdbListRatings?.isEmpty() == false) {
                             MDBListRatingsRow(ratings = mdbListRatings, order = mdbListRatingOrder)
-                            Spacer(modifier = Modifier.height(14.dp))
+                            Spacer(modifier = Modifier.height(10.dp))
                         }
                     }
 
-                    Box(modifier = Modifier.heightIn(min = 24.dp)) {
-                        if (sourceSignal != null) {
-                            SourceBadgeRow(
-                                signal = sourceSignal,
-                                modifier = Modifier.fillMaxWidth(0.75f)
-                            )
-                        }
+                    // A missing source badge must not reserve an empty row above the synopsis.
+                    if (sourceSignal != null) {
+                        SourceBadgeRow(
+                            signal = sourceSignal,
+                            modifier = Modifier.fillMaxWidth(0.75f)
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
                     }
-                    Spacer(modifier = Modifier.height(14.dp))
 
                     meta.description?.let { description ->
                         SynopsisDescription(

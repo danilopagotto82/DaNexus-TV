@@ -129,7 +129,10 @@ class HomeEnrichmentRetryTest {
     fun `a TMDB success does not suppress the external retry`() = runBlocking {
         val calls = AtomicInteger()
         val reachable = java.util.concurrent.atomic.AtomicBoolean(false)
-        val repository = metaRepository(calls, reachable, AtomicInteger())
+        val repository = metaRepository(
+            calls, reachable, AtomicInteger(),
+            resolvedMeta = meta().copy(logo = "https://addon.example/english.png")
+        )
         // Distinct ids per item: focusing the other item also fetches TMDB, so the verification
         // below has to name the one under test rather than counting every enrichment call.
         val tmdbService = mockk<TmdbService>(relaxed = true) {
@@ -137,7 +140,10 @@ class HomeEnrichmentRetryTest {
             coEvery { ensureTmdbId(eq(otherId), any()) } returns "2000"
         }
         val tmdbMetadataService = mockk<TmdbMetadataService>(relaxed = true) {
-            coEvery { fetchEnrichment(any(), any(), any()) } returns mockk<TmdbEnrichment>(relaxed = true)
+            coEvery { fetchEnrichment(any(), any(), any()) } returns mockk<TmdbEnrichment>(relaxed = true) {
+                every { logo } returns "https://image.tmdb.org/t/p/w500/portugues.png"
+                every { backdrop } returns "https://image.tmdb.org/t/p/w1280/localizado.jpg"
+            }
         }
         val viewModel = newViewModel(repository, tmdbService, tmdbMetadataService)
         viewModel.currentTmdbSettings = TmdbSettings(enabled = true, modernHomeEnabled = true)
@@ -150,6 +156,11 @@ class HomeEnrichmentRetryTest {
         withTimeout(5_000) {
             while (itemId !in viewModel.prefetchedTmdbIds) delay(25)
         }
+        withTimeout(5_000) {
+            while (viewModel.enrichedPreviews.value[itemId]?.logo !=
+                "https://image.tmdb.org/t/p/w500/portugues.png") delay(25)
+        }
+
         // The state the second gate reads: TMDB resolved and is cached, external failed and is not.
         assertTrue("TMDB should be cached after it resolved", itemId in viewModel.prefetchedTmdbIds)
         assertTrue(
@@ -168,6 +179,20 @@ class HomeEnrichmentRetryTest {
         assertTrue(
             "the external retry resolved, so it should now be cached too",
             itemId in viewModel.prefetchedExternalMetaIds
+        )
+        // Wait for the retry's metadata to be published, not merely for its request to start.
+        withTimeout(5_000) {
+            while (viewModel.enrichedPreviews.value[itemId]?.description != ENRICHED_DESCRIPTION) delay(25)
+        }
+        assertEquals(
+            "a late addon result must not replace the Portuguese TMDB logo",
+            "https://image.tmdb.org/t/p/w500/portugues.png",
+            viewModel.enrichedPreviews.value[itemId]?.logo
+        )
+        assertEquals(
+            "a late addon result must preserve the selected TMDB backdrop too",
+            "https://image.tmdb.org/t/p/w1280/localizado.jpg",
+            viewModel.enrichedPreviews.value[itemId]?.backdropUrl
         )
         coVerify(exactly = 1) { tmdbMetadataService.fetchEnrichment(eq("1399"), any(), any()) }
     }
@@ -356,12 +381,13 @@ class HomeEnrichmentRetryTest {
     private fun metaRepository(
         calls: AtomicInteger,
         reachable: java.util.concurrent.atomic.AtomicBoolean,
-        backgroundCalls: AtomicInteger
+        backgroundCalls: AtomicInteger,
+        resolvedMeta: Meta = meta()
     ): MetaRepository = newMetaRepository(backgroundCalls).apply {
         coEvery { getMetaFromAllAddons(any(), eq(itemId), eq(sourceUrl)) } answers {
             calls.incrementAndGet()
             if (reachable.get()) {
-                flowOf(NetworkResult.Success(meta()))
+                flowOf(NetworkResult.Success(resolvedMeta))
             } else {
                 flowOf(NetworkResult.Error("Failed to connect"))
             }

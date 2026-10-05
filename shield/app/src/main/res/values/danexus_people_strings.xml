@@ -1,0 +1,5 @@
+<resources>
+    <string name="danexus_pause_people">Cast and directors</string>
+    <string name="danexus_director_badge">Director · %1$s</string>
+    <string name="danexus_pause_resume">Continue watching</string>
+</resources>

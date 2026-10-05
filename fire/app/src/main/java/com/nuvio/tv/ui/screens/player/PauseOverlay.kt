@@ -17,6 +17,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import com.nuvio.tv.core.danexus.DanexusPeopleCredits
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,8 +36,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.tv.material3.Card
+import androidx.tv.material3.Button
 import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
@@ -68,9 +72,19 @@ fun PauseOverlay(
     description: String?,
     cast: List<MetaCastMember>,
     modifier: Modifier = Modifier,
-    showClock: Boolean = true
+    showClock: Boolean = true,
+    directors: List<MetaCastMember> = emptyList(),
+    onResume: () -> Unit = onClose,
+    onNavigateToDetail: (String, String, String?) -> Unit = { _, _, _ -> }
 ) {
     var selectedCastMember by remember { mutableStateOf<MetaCastMember?>(null) }
+    LaunchedEffect(visible, title) { if (!visible) selectedCastMember = null }
+    val credits = remember(cast, directors) { DanexusPeopleCredits.visible(cast, directors) }
+    selectedCastMember?.takeIf { it.tmdbId != null }?.let { person ->
+        DanexusPersonOverlay(person, onDismiss = { selectedCastMember = null },
+            onNavigateToDetail = onNavigateToDetail)
+    }
+
 
     PlayerOverlayScaffold(
         visible = visible,
@@ -94,7 +108,7 @@ fun PauseOverlay(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ) {
-            if (selectedCastMember != null) {
+            if (selectedCastMember != null && selectedCastMember?.tmdbId == null) {
                 CastDetailView(
                     member = selectedCastMember!!,
                     onBack = { selectedCastMember = null }
@@ -109,8 +123,9 @@ fun PauseOverlay(
                     year = year,
                     type = type,
                     description = description,
-                    cast = cast,
-                    onCastSelected = { selectedCastMember = it }
+                    cast = credits,
+                    onCastSelected = { selectedCastMember = it },
+                    onResume = onResume
                 )
             }
         }
@@ -154,7 +169,8 @@ private fun PauseMetadataView(
     type: String?,
     description: String?,
     cast: List<MetaCastMember>,
-    onCastSelected: (MetaCastMember) -> Unit
+    onCastSelected: (MetaCastMember) -> Unit,
+    onResume: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -245,11 +261,22 @@ private fun PauseMetadataView(
                 )
             }
 
+            val resumeFocus = remember { FocusRequester() }
+            LaunchedEffect(Unit) {
+                repeat(2) { androidx.compose.runtime.withFrameNanos { } }
+                runCatching { resumeFocus.requestFocus() }
+            }
+            Spacer(Modifier.height(16.dp))
+            Button(onClick = onResume, modifier = Modifier.focusRequester(resumeFocus)) {
+                Text(stringResource(R.string.danexus_pause_resume))
+            }
+
+            val firstPersonFocus = remember { FocusRequester() }
             if (cast.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    text = stringResource(R.string.pause_cast_label),
+                    text = stringResource(R.string.danexus_pause_people),
                     style = MaterialTheme.typography.titleSmall,
                     color = NuvioTheme.colors.TextTertiary
                 )
@@ -259,8 +286,12 @@ private fun PauseMetadataView(
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(14.dp),
                     content = {
-                        items(cast.take(8)) { member ->
-                            CastChip(member = member, onClick = { onCastSelected(member) })
+                        itemsIndexed(cast) { index, member ->
+                            CastChip(
+                                member = member,
+                                onClick = { onCastSelected(member) },
+                                modifier = if (index == 0) Modifier.focusRequester(firstPersonFocus) else Modifier
+                            )
                         }
                     }
                 )
@@ -272,10 +303,12 @@ private fun PauseMetadataView(
 @Composable
 private fun CastChip(
     member: MetaCastMember,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
         onClick = onClick,
+        modifier = modifier,
         colors = CardDefaults.colors(
             containerColor = Color.White.copy(alpha = 0.1f),
             focusedContainerColor = Color.White.copy(alpha = 0.18f)
@@ -283,7 +316,8 @@ private fun CastChip(
         shape = CardDefaults.shape(shape = RoundedCornerShape(NuvioTheme.radii.md))
     ) {
         Text(
-            text = member.name,
+            text = if (DanexusPeopleCredits.isDirector(member))
+                stringResource(R.string.danexus_director_badge, member.name) else member.name,
             style = MaterialTheme.typography.bodyMedium,
             color = Color.White,
             modifier = Modifier.padding(horizontal = 18.dp, vertical = 10.dp),

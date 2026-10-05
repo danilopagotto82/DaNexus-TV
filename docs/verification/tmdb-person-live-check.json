@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "people": [
+    {
+      "name": "Robert Downey Jr.",
+      "personId": 3223,
+      "detailsStatus": 200,
+      "creditsStatus": 200,
+      "hasPhoto": true,
+      "hasBiographyPtBr": true,
+      "castTitles": 180,
+      "crewTitles": 16
+    },
+    {
+      "name": "Austin Abrams",
+      "personId": 148992,
+      "detailsStatus": 200,
+      "creditsStatus": 200,
+      "hasPhoto": true,
+      "hasBiographyPtBr": false,
+      "castTitles": 37,
+      "crewTitles": 0
+    },
+    {
+      "name": "Christopher Nolan",
+      "personId": 525,
+      "detailsStatus": 200,
+      "creditsStatus": 200,
+      "hasPhoto": true,
+      "hasBiographyPtBr": true,
+      "castTitles": 49,
+      "crewTitles": 78
+    }
+  ],
+  "at": "2026-10-05T16:42:24.088399+00:00"
+}

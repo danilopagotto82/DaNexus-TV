@@ -371,6 +371,7 @@ class PlayerRuntimeController(
     internal var currentEpisode: Int? = initialEpisode
     internal var currentEpisodeTitle: String? = initialEpisodeTitle
 
+    internal val danexusSeekSession = com.nuvio.tv.core.danexus.DanexusSeekSession()
     internal val _uiState = MutableStateFlow(
         PlayerUiState(
             title = title,
@@ -765,6 +766,7 @@ class PlayerRuntimeController(
     internal var pendingPreviewSeekPosition: Long?
         get() = _uiState.value.pendingPreviewSeekPosition
         set(value) {
+            if (value == null) danexusSeekSession.reset()
             _uiState.update { state ->
                 if (state.pendingPreviewSeekPosition == value) {
                     state

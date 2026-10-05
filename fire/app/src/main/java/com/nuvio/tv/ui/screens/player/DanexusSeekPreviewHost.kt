@@ -10,7 +10,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
@@ -30,7 +32,11 @@ import tv.seekr.previews.core.PreviewTrack
 import tv.seekr.previews.core.SeekrPreviews
 
 @Composable
-internal fun DanexusSeekPreviewHost(viewModel: PlayerViewModel, showSync: Boolean, onDismissSync: () -> Unit) {
+internal fun DanexusSeekPreviewHost(
+    viewModel: PlayerViewModel, showSync: Boolean,
+    onAvailabilityChanged: (Boolean) -> Unit = {},
+    onDismissSync: () -> Unit
+) {
     val context = LocalContext.current
     val options by remember { DanexusPreferences.observe(context) }.collectAsState()
     val revision by DanexusSeekrKey.revision.collectAsState()
@@ -40,12 +46,16 @@ internal fun DanexusSeekPreviewHost(viewModel: PlayerViewModel, showSync: Boolea
     var offset by remember(mediaKey) { mutableStateOf(0) }
     var track by remember(mediaKey, revision, options.seekPreviews) { mutableStateOf<PreviewTrack?>(null) }
     var frame by remember(mediaKey) { mutableStateOf<Bitmap?>(null) }
-    var frameMs by remember(mediaKey) { mutableStateOf(0L) }
+    var frames by remember(mediaKey) { mutableStateOf<Map<Long, Bitmap>>(emptyMap()) }
     var lastScrubPosition by remember(mediaKey) { mutableStateOf<Long?>(null) }
     val images = remember(mediaKey) { DanexusSeekPreviewImages() }
+    val availabilityChanged by rememberUpdatedState(onAvailabilityChanged)
+    LaunchedEffect(track, options.seekPreviews) {
+        availabilityChanged(track != null && options.seekPreviews)
+    }
     val hasDuration = timeline.duration > 0 && !timeline.isLive
     LaunchedEffect(mediaKey, revision, options.seekPreviews, hasDuration) {
-        track = null; frame = null; offset = 0
+        track = null; frame = null; frames = emptyMap(); offset = 0
         if (!options.seekPreviews || !hasDuration) return@LaunchedEffect
         val key = DanexusSeekrKey.read(context)
         if (!DanexusSeekPreviewPolicy.validKeyFormat(key)) return@LaunchedEffect
@@ -64,22 +74,31 @@ internal fun DanexusSeekPreviewHost(viewModel: PlayerViewModel, showSync: Boolea
         }
     }
     LaunchedEffect(track, ui.showControls) {
-        if (ui.showControls) track?.tileAt(timeline.currentPosition)?.let { images.image(it) }
+        val active = track ?: return@LaunchedEffect
+        if (ui.showControls) {
+            for (p in DanexusSeekPreviewPolicy.neighbors(timeline.currentPosition, timeline.duration).filterNotNull()) {
+                active.tileAt(p)?.let { images.image(it) }
+            }
+        }
     }
     val position = ui.pendingPreviewSeekPosition ?: lastScrubPosition ?: timeline.currentPosition
     val visible = options.seekPreviews && !timeline.isLive && (lastScrubPosition != null || ui.pendingPreviewSeekPosition != null || showSync)
+    val cueStep = track?.cueAt(position)?.let { (it.endMs - it.startMs).coerceAtLeast(1_000L) } ?: 10_000L
+    val slots = DanexusSeekPreviewPolicy.neighbors(position, timeline.duration, cueStep)
     LaunchedEffect(track, position, offset, visible) {
-        frame = null
         if (!visible) return@LaunchedEffect
         val active = track ?: return@LaunchedEffect
         active.offsetMs = offset.toLong()
-        val cue = active.cueAt(position) ?: return@LaunchedEffect
-        val correctedPosition = position + offset
-        val nearest = if (correctedPosition - cue.startMs > cue.endMs - correctedPosition)
-            active.cueAt(cue.endMs - offset) ?: cue else cue
-        val bitmap = images.image(nearest.tile) ?: return@LaunchedEffect
-        frameMs = DanexusSeekPreviewPolicy.framePosition(nearest.startMs, offset)
-        frame = bitmap
+        val wanted = slots.filterNotNull().toSet()
+        frames = frames.filterKeys { it in wanted }
+        // Show the selected frame first, then its immediate neighbors.
+        for (index in listOf(2, 1, 3, 0, 4)) {
+            val p = slots[index] ?: continue
+            val tile = active.tileAt(p) ?: continue
+            val bitmap = images.image(tile) ?: continue
+            frames = frames + (p to bitmap)
+            if (index == 2) frame = bitmap
+        }
     }
     @Composable fun preview() {
         frame?.let { bitmap ->
@@ -88,11 +107,36 @@ internal fun DanexusSeekPreviewHost(viewModel: PlayerViewModel, showSync: Boolea
                 .border(1.dp, Color.White.copy(alpha = .28f), RoundedCornerShape(12.dp)).padding(6.dp),
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(bitmap.asImageBitmap(), stringResource(R.string.danexus_seek_frame), Modifier.fillMaxWidth().aspectRatio(16f/9f).clip(RoundedCornerShape(10.dp)))
-                Text(stringResource(R.string.danexus_seek_time, previewTime(frameMs)), Modifier.padding(top = 4.dp))
+                Text(previewTime(position), Modifier.padding(top = 4.dp))
             }
         }
     }
-    if (visible && !showSync && frame != null) Box(Modifier.fillMaxSize().padding(bottom = 112.dp), contentAlignment = Alignment.BottomCenter) { preview() }
+    if (visible && !showSync && track != null) {
+        BoxWithConstraints(
+            Modifier.fillMaxSize().padding(start = 32.dp, end = 32.dp, bottom = 112.dp),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            val width = ((maxWidth - 48.dp) / 5).coerceAtMost(176.dp)
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                slots.forEachIndexed { index, p ->
+                    val selected = index == 2
+                    val bitmap = p?.let { frames[it] }
+                    Box(Modifier.width(width).aspectRatio(16f / 9f)
+                        .clip(RoundedCornerShape(6.dp))
+                        .background(Color.Black.copy(alpha = 0.7f))
+                        .border(if (selected) 2.dp else 1.dp,
+                            if (selected) Color.White else Color.White.copy(alpha = 0.15f),
+                            RoundedCornerShape(6.dp))) {
+                        bitmap?.let {
+                            Image(it.asImageBitmap(), stringResource(R.string.danexus_seek_frame),
+                                Modifier.fillMaxSize().alpha(if (selected) 1f else 0.65f),
+                                contentScale = ContentScale.Crop)
+                        }
+                    }
+                }
+            }
+        }
+    }
     if (showSync) NuvioDialog(onDismiss = onDismissSync, title = stringResource(R.string.danexus_seek_sync),
         subtitle = stringResource(R.string.danexus_seek_sync_desc), width = 560.dp) {
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {

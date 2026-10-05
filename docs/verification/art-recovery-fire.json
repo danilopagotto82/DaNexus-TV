@@ -1,0 +1,245 @@
+{
+  "status": "APK_VERIFIED",
+  "edition": "Fire TV",
+  "version": "1.1.0-beta.4-danexus.7",
+  "versionCode": 1073,
+  "package": "com.danexus.tv.fire.debug",
+  "abis": [
+    "armeabi-v7a"
+  ],
+  "certSha256": "77066ec7da0b758bbab4304a2ae64e22ed0f381d1ed29f85abfb1be3d26f1419",
+  "path": "D:\\NEXUS_7\\development\\nuvio\\entrega\\FASE12\\art-recovery-20261005\\DaNexus-FireTV-1.1.0-beta.4-danexus.7-armeabi-v7a.apk",
+  "sha256": "8252b011e77f7d56f8678d13224f4708823df6f6138136ab46340a94f20041e0",
+  "size": 81184024,
+  "testReport": {
+    "status": "PASS",
+    "tests": 180,
+    "failures": 0,
+    "suites": [
+      {
+        "name": "com.nuvio.tv.core.danexus.DanexusPeopleCreditsTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.core.danexus.DanexusRecommendationsStoreTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.core.danexus.DanexusRemoteControlTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.core.danexus.DanexusSeekFilmstripTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.core.danexus.DanexusSeekPreviewPolicyTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.core.danexus.DanexusSeekSessionTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.core.danexus.ProfileRecommendationRulesTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.core.tmdb.TmdbLocalizedArtworkTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.core.tmdb.TmdbMetadataServiceTest",
+        "tests": "25",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.mdblist.MdbListApiClientTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.mdblist.MdbListAuthRepositoryTest",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.mdblist.MdbListAuthStoreTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.mdblist.MdbListHttpClientTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.mdblist.OkHttpMdbListEngineTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.repository.MetaRepositoryAddonCacheTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.repository.MetaRepositoryArtworkPriorityTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.repository.MetaRepositoryCandidateTypeTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.repository.MetaRepositoryNotFoundClassificationTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.repository.MetaRepositoryPreferredAddonTypeTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.ui.screens.home.HomeEnrichmentRepositoryBoundaryTest",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.ui.screens.home.HomeEnrichmentRetryTest",
+        "tests": "9",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.ui.screens.player.PlayerBackPressTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.ui.screens.player.PlayerScrubRatesTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.DanexusAutomaticUpdateTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.DanexusUpdateAssetsTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.DanexusUpdateRepositoryTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.ReleaseSelectorTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.UpdateBannerPolicyTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.VersionUtilsTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  },
+  "tests": 180,
+  "failures": 0,
+  "deviceValidation": "PENDING",
+  "mdblist": "CLIENT_CONFIGURED_DEVICE_FLOW_ACCEPTED",
+  "mdblistClientEmbedded": true,
+  "tmdbChanges": "PT_BR_PRIORITY_BOTH_EDITIONS",
+  "updater": "DANEXUS_NATIVE_AUTO_CHECK_AND_EDITION_APK_VALIDATED",
+  "seconds": 2087,
+  "at": "2026-10-05T17:30:31.196232+00:00",
+  "tmdbKeyEmbedded": true,
+  "sourceFingerprintVerified": true,
+  "seek": "FIVE_SCENE_STRIP_CONFIRM_TO_RESUME",
+  "people": "NATIVE_DETAIL_SCREEN_FROM_PAUSE_ACTORS_AND_DIRECTORS",
+  "sourceCommit": "b39005efea3b92ffac45bbf0ecbc6f9c35ccdaf1",
+  "sourceAsset": "D:\\NEXUS_7\\development\\nuvio\\entrega\\FASE12\\art-recovery-20261005\\DaNexus-FireTV-1.1.0-beta.4-danexus.7-source.zip",
+  "sourceSha256": "0d9e948e421559ebd5fee05eead00dec283e4b939262200234cc78d58509d09a",
+  "sourceSize": 97034496,
+  "tag": "v1.1.0-beta.4-danexus.7",
+  "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.7/DaNexus-FireTV-1.1.0-beta.4-danexus.7-armeabi-v7a.apk",
+  "sourceUrl": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.7/DaNexus-FireTV-1.1.0-beta.4-danexus.7-source.zip",
+  "publicDownloadVerified": false
+}

@@ -1127,6 +1127,7 @@ internal fun PlayerRuntimeController.scheduleHideSubtitleDelayOverlay() {
 
 internal fun PlayerRuntimeController.schedulePauseOverlay() {
     pauseOverlayJob?.cancel()
+    if (pendingPreviewSeekPosition != null || danexusSeekSession.active) return
 
     if (!_uiState.value.pauseOverlayEnabled || !hasRenderedFirstFrame || !userPausedManually) {
         _uiState.update { it.copy(showPauseOverlay = false) }
@@ -1141,7 +1142,7 @@ internal fun PlayerRuntimeController.schedulePauseOverlay() {
             s.showSpeedDialog || s.showMoreDialog || s.showEpisodesPanel ||
             s.showSourcesPanel || s.showAudioOverlay || s.showStreamInfoOverlay ||
             s.showSubtitleTimingDialog || s.showSubtitleDelayOverlay
-        if (!s.isPlaying && s.pauseOverlayEnabled && s.error == null && !anyPanelOpen) {
+        if (!s.isPlaying && s.pauseOverlayEnabled && s.error == null && !anyPanelOpen && s.pendingPreviewSeekPosition == null) {
             _uiState.update { it.copy(showPauseOverlay = true, showControls = false) }
         }
     }
@@ -1175,6 +1176,10 @@ fun PlayerRuntimeController.onEvent(event: PlayerEvent) {
         PlayerEvent.OnSmartSourceNext -> skipSlowSmartSource()
         PlayerEvent.OnSmartSourceWait -> dismissSlowSmartSourcePrompt()
         PlayerEvent.OnPlayPause -> {
+            if (pendingPreviewSeekPosition != null) {
+                onEvent(PlayerEvent.OnCommitPreviewSeek)
+                return
+            }
             if (isUsingMpvEngine()) {
                 val playing = isPlaybackCurrentlyPlaying()
                 if (playing) {
@@ -1210,11 +1215,11 @@ fun PlayerRuntimeController.onEvent(event: PlayerEvent) {
         }
         PlayerEvent.OnSeekForward -> {
             if (_playbackTimeline.value.isLive) return
-            onEvent(PlayerEvent.OnSeekBy(deltaMs = PlayerScrubRates.STEP_SHORT_MS))
+            onEvent(PlayerEvent.OnPreviewSeekBy(deltaMs = PlayerScrubRates.STEP_SHORT_MS))
         }
         PlayerEvent.OnSeekBackward -> {
             if (_playbackTimeline.value.isLive) return
-            onEvent(PlayerEvent.OnSeekBy(deltaMs = -PlayerScrubRates.STEP_SHORT_MS))
+            onEvent(PlayerEvent.OnPreviewSeekBy(deltaMs = -PlayerScrubRates.STEP_SHORT_MS))
         }
         is PlayerEvent.OnSeekBy -> {
             if (_playbackTimeline.value.isLive) return
@@ -1240,6 +1245,7 @@ fun PlayerRuntimeController.onEvent(event: PlayerEvent) {
         }
         is PlayerEvent.OnPreviewSeekBy -> {
             if (_playbackTimeline.value.isLive) return
+            danexusSeekSession.begin(currentPlaybackPositionMs() ?: 0L) { pauseForConfirmedSeek() }
             val maxDuration = currentPlaybackDurationMs().takeIf { it >= 0 } ?: Long.MAX_VALUE
             val basePosition = pendingPreviewSeekPosition ?: currentPlaybackPositionMs()?.coerceAtLeast(0L) ?: 0L
             val target = (basePosition + event.deltaMs)
@@ -1256,17 +1262,22 @@ fun PlayerRuntimeController.onEvent(event: PlayerEvent) {
         PlayerEvent.OnCommitPreviewSeek -> {
             if (_playbackTimeline.value.isLive) return
             val target = pendingPreviewSeekPosition
-            if (target != null) {
-                seekPlaybackTo(target, SeekParameters.CLOSEST_SYNC)
-                updatePlaybackTimeline(currentPosition = target)
+            if (target != null && danexusSeekSession.confirm(
+                    target,
+                    seek = { seekPlaybackTo(it, SeekParameters.CLOSEST_SYNC) },
+                    resume = { resumeAfterConfirmedSeek() }
+                )) {
                 pendingPreviewSeekPosition = null
+                updatePlaybackTimeline(currentPosition = target)
                 scheduleProgressSyncAfterSeek()
-                if (_uiState.value.showControls) {
-                    showControlsTemporarily()
-                } else {
-                    showSeekOverlayTemporarily()
-                }
+                showControlsTemporarily()
             }
+        }
+        PlayerEvent.OnCancelPreviewSeek -> {
+            val original = danexusSeekSession.cancel()
+            pendingPreviewSeekPosition = null
+            updatePlaybackTimeline(currentPosition = original ?: currentPlaybackPositionMs() ?: 0L)
+            showControlsTemporarily()
         }
         is PlayerEvent.OnSeekTo -> {
             if (_playbackTimeline.value.isLive) return
@@ -1898,5 +1909,30 @@ private fun formatTorrentSpeed(context: android.content.Context, bytesPerSec: Lo
         bytesPerSec >= 1_048_576 -> context.getString(R.string.unit_speed_mb_s, String.format("%.1f", bytesPerSec / 1_048_576.0))
         bytesPerSec >= 1_024 -> context.getString(R.string.unit_speed_kb_s, String.format("%.0f", bytesPerSec / 1_024.0))
         else -> context.getString(R.string.unit_speed_b_s, bytesPerSec)
+    }
+}
+
+
+// This pause is retained until confirmation; key release and idle timers cannot resume it.
+private fun PlayerRuntimeController.pauseForConfirmedSeek() {
+    userPausedManually = true
+    shouldEnforceAutoplayOnFirstReady = false
+    cancelPauseOverlay()
+    setPlaybackPaused(true)
+    if (isUsingMpvEngine()) {
+        stopProgressUpdates()
+        stopWatchProgressSaving()
+        emitPauseScrobbleForCurrentProgress()
+    }
+}
+
+private fun PlayerRuntimeController.resumeAfterConfirmedSeek() {
+    userPausedManually = false
+    cancelPauseOverlay()
+    setPlaybackPaused(false)
+    if (isUsingMpvEngine()) {
+        startProgressUpdates()
+        startWatchProgressSaving()
+        emitScrobbleStart()
     }
 }

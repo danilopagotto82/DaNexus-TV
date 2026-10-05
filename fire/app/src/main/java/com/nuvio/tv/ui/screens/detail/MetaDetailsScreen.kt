@@ -1787,7 +1787,7 @@ private fun MetaDetailsContent(
     // Pre-compute cast members to avoid recomputation in lazy scope
     val castMembersToShow = remember(meta.castMembers, meta.cast) {
         if (meta.castMembers.isNotEmpty()) {
-            meta.castMembers
+            meta.castMembers.filterNot(com.nuvio.tv.core.danexus.DanexusPeopleCredits::isWriter)
         } else {
             meta.cast.map { name -> MetaCastMember(name = name) }
         }

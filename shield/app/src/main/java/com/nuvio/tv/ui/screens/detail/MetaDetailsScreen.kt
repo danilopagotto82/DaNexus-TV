@@ -1826,7 +1826,7 @@ private fun MetaDetailsContent(
     // Prepare cast only after the hero or explicit Down demand.
     val castMembersToShow = remember(people.castMembers, people.cast) {
         if (people.castMembers.isNotEmpty()) {
-            people.castMembers
+            people.castMembers.filterNot(com.nuvio.tv.core.danexus.DanexusPeopleCredits::isWriter)
         } else {
             people.cast.map { name -> MetaCastMember(name = name) }
         }

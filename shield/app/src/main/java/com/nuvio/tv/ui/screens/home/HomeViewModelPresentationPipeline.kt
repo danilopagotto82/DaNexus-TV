@@ -1020,6 +1020,12 @@ internal fun HomeViewModel.updateCatalogItemImdbRating(itemId: String, rating: F
 internal fun MetaPreview.enrichedBackground(meta: Meta): String? =
     meta.background ?: meta.landscapePoster ?: background
 
+// Once TMDB artwork was applied, a later addon retry must not downgrade it.
+private fun HomeViewModel.hasPreferredTmdbArtwork(itemId: String): Boolean =
+    currentTmdbSettings.enabled && currentTmdbSettings.useArtwork &&
+        (_uiState.value.homeLayout != HomeLayout.MODERN || currentTmdbSettings.modernHomeEnabled) &&
+        itemId in prefetchedTmdbIds
+
 private fun HomeViewModel.updateCatalogItemWithMeta(itemId: String, meta: Meta) {
     enrichmentMergedIds.add(itemId)
     val incomingTrailerYtIds = meta.trailerYtIds
@@ -1032,8 +1038,8 @@ private fun HomeViewModel.updateCatalogItemWithMeta(itemId: String, meta: Meta) 
         .takeIf { it > 0 }
 
     fun mergeItem(currentItem: MetaPreview): MetaPreview = currentItem.copy(
-        background = currentItem.enrichedBackground(meta),
-        logo = meta.logo ?: currentItem.logo,
+        background = if (hasPreferredTmdbArtwork(itemId)) currentItem.backdropUrl else currentItem.enrichedBackground(meta),
+        logo = if (hasPreferredTmdbArtwork(itemId)) currentItem.logo else meta.logo ?: currentItem.logo,
         description = meta.description ?: currentItem.description,
         imdbRating = meta.imdbRating ?: currentItem.imdbRating,
         genres = if (meta.genres.isNotEmpty()) meta.genres else currentItem.genres,
@@ -1073,8 +1079,8 @@ private fun HomeViewModel.updateCatalogItemWithMeta(itemId: String, meta: Meta) 
 
 private fun HomeViewModel.updateCatalogItemArtworkOnly(itemId: String, meta: Meta) {
     fun mergeItem(currentItem: MetaPreview): MetaPreview = currentItem.copy(
-        background = currentItem.enrichedBackground(meta),
-        logo = meta.logo ?: currentItem.logo
+        background = if (hasPreferredTmdbArtwork(itemId)) currentItem.backdropUrl else currentItem.enrichedBackground(meta),
+        logo = if (hasPreferredTmdbArtwork(itemId)) currentItem.logo else meta.logo ?: currentItem.logo
     )
 
     updateIndexedCatalogItem(itemId, ::mergeItem)

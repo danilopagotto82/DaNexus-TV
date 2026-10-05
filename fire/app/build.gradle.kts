@@ -106,8 +106,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1072
-        versionName = "1.1.0-beta.4-danexus.6"
+        versionCode = 1073
+        versionName = "1.1.0-beta.4-danexus.7"
         resValue("string", "app_name", "DaNexus")
 
         buildConfigField("String", "PARENTAL_GUIDE_API_URL", "\"${localProperties.getProperty("PARENTAL_GUIDE_API_URL", "")}\"")
@@ -128,7 +128,14 @@ android {
         buildConfigField("String", "MDBLIST_CLIENT_ID", buildConfigString(
             providers.environmentVariable("MDBLIST_CLIENT_ID").orNull?.trim()?.takeIf { it.isNotBlank() }
                 ?: resolveProperty(devProperties, localProperties, "MDBLIST_CLIENT_ID")))
-        buildConfigField("String", "TMDB_API_KEY", "\"${localProperties.getProperty("TMDB_API_KEY", "")}\"")
+        val tmdbApiKey = providers.environmentVariable("TMDB_API_KEY").orNull?.trim()?.takeIf { it.isNotBlank() }
+            ?: resolveProperty(devProperties, localProperties, "TMDB_API_KEY")
+        if (providers.gradleProperty("danexusDeliveryAbi").isPresent) {
+            require(tmdbApiKey.matches(Regex("[a-fA-F0-9]{32}"))) {
+                "TMDB_API_KEY ausente ou invalida: configure a chave v3 em local.properties antes de gerar o APK de entrega."
+            }
+        }
+        buildConfigField("String", "TMDB_API_KEY", buildConfigString(tmdbApiKey))
         buildConfigField("String", "TV_LOGIN_WEB_BASE_URL", "\"${localProperties.getProperty("TV_LOGIN_WEB_BASE_URL", "https://nuvio.tv/tv-login")}\"")
         buildConfigField("String", "DEVICE_LOGIN_WEB_BASE_URL", "\"${localProperties.getProperty("DEVICE_LOGIN_WEB_BASE_URL", "https://nuvio.tv/link")}\"")
         buildConfigField("boolean", "DOVI_NATIVE_ENABLED", enableDoviNative.toString())

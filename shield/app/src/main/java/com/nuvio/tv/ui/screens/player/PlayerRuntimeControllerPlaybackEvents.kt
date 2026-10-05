@@ -1181,6 +1181,7 @@ internal fun PlayerRuntimeController.scheduleHideSubtitleDelayOverlay() {
 
 internal fun PlayerRuntimeController.schedulePauseOverlay() {
     pauseOverlayJob?.cancel()
+    if (pendingPreviewSeekPosition != null || danexusSeekSession.active) return
 
     if (!_uiState.value.pauseOverlayEnabled || !hasRenderedFirstFrame || !userPausedManually ||
         partyBridge?.partyPaused == true
@@ -1197,7 +1198,7 @@ internal fun PlayerRuntimeController.schedulePauseOverlay() {
             s.showSpeedDialog || s.showMoreDialog || s.showEpisodesPanel ||
             s.showSourcesPanel || s.showAudioOverlay || s.showStreamInfoOverlay ||
             s.showSubtitleTimingDialog || s.showSubtitleDelayOverlay || s.showPartyPanel
-        if (!s.isPlaying && s.pauseOverlayEnabled && s.error == null && !anyPanelOpen) {
+        if (!s.isPlaying && s.pauseOverlayEnabled && s.error == null && !anyPanelOpen && s.pendingPreviewSeekPosition == null) {
             _uiState.update { it.copy(showPauseOverlay = true, showControls = false) }
         }
     }
@@ -1257,6 +1258,10 @@ fun PlayerRuntimeController.onEvent(event: PlayerEvent) {
         PlayerEvent.OnSmartSourceNext -> skipSlowSmartSource()
         PlayerEvent.OnSmartSourceWait -> dismissSlowSmartSourcePrompt()
         PlayerEvent.OnPlayPause -> {
+            if (pendingPreviewSeekPosition != null) {
+                onEvent(PlayerEvent.OnCommitPreviewSeek)
+                return
+            }
             // A play/pause press during a held scrub is the user's own choice from here on.
             scrubHoldPaused = false
             if (isUsingMpvEngine()) {
@@ -1297,11 +1302,11 @@ fun PlayerRuntimeController.onEvent(event: PlayerEvent) {
         }
         PlayerEvent.OnSeekForward -> {
             if (_playbackTimeline.value.isLive) return
-            onEvent(PlayerEvent.OnSeekBy(deltaMs = PlayerScrubRates.STEP_SHORT_MS))
+            onEvent(PlayerEvent.OnPreviewSeekBy(deltaMs = PlayerScrubRates.STEP_SHORT_MS))
         }
         PlayerEvent.OnSeekBackward -> {
             if (_playbackTimeline.value.isLive) return
-            onEvent(PlayerEvent.OnSeekBy(deltaMs = -PlayerScrubRates.STEP_SHORT_MS))
+            onEvent(PlayerEvent.OnPreviewSeekBy(deltaMs = -PlayerScrubRates.STEP_SHORT_MS))
         }
         is PlayerEvent.OnSeekBy -> {
             if (_playbackTimeline.value.isLive) return
@@ -1329,10 +1334,8 @@ fun PlayerRuntimeController.onEvent(event: PlayerEvent) {
         }
         is PlayerEvent.OnPreviewSeekBy -> {
             if (_playbackTimeline.value.isLive) return
+            danexusSeekSession.begin(currentPlaybackPositionMs() ?: 0L) { pauseForConfirmedSeek() }
             val maxDuration = currentPlaybackDurationMs().takeIf { it >= 0 } ?: Long.MAX_VALUE
-            // A second step before the commit means the key is held; a single press never pauses.
-            val heldKey = pendingPreviewSeekPosition != null
-            if (heldKey) holdPlaybackForScrub()
             val basePosition = pendingPreviewSeekPosition ?: currentPlaybackPositionMs()?.coerceAtLeast(0L) ?: 0L
             // With thumbnails on, every step lands on the 10 s thumbnail grid.
             val target = (SeekThumbnails.gridStep(basePosition, event.deltaMs) ?: (basePosition + event.deltaMs))
@@ -1340,9 +1343,8 @@ fun PlayerRuntimeController.onEvent(event: PlayerEvent) {
                 .coerceAtMost(maxDuration)
             pendingPreviewSeekPosition = target
             _uiState.update { it.copy(pendingPreviewSeekPosition = target, previewThumbPositionMs = target) }
-            // Taps show no thumbnails, so only a held key asks the worker for this position first.
-            if (heldKey) SeekThumbnails.notePriority(target)
-            schedulePendingPreviewSeekExpiry()
+            SeekThumbnails.notePriority(target)
+            pendingPreviewSeekExpiryJob?.cancel()
             updatePlaybackTimeline(
                 currentPosition = previewDisplayPosition() ?: target,
                 playbackPosition = currentPlaybackPositionMs() ?: _playbackTimeline.value.playbackPosition
@@ -1356,24 +1358,24 @@ fun PlayerRuntimeController.onEvent(event: PlayerEvent) {
         PlayerEvent.OnCommitPreviewSeek -> {
             if (_playbackTimeline.value.isLive) return
             val target = pendingPreviewSeekPosition
-            if (target != null) {
-                pendingPreviewSeekExpiryJob?.cancel()
-                // Land on the keyframe whose thumbnail was shown.
-                val landing = SeekThumbnails.landingFor(target) ?: target
-                seekPlaybackTo(landing, SeekParameters.CLOSEST_SYNC)
-                releaseScrubHold()
-                updatePlaybackTimeline(currentPosition = landing)
+            if (target != null && danexusSeekSession.confirm(
+                    target,
+                    seek = { seekPlaybackTo(it, SeekParameters.CLOSEST_SYNC) },
+                    resume = { resumeAfterConfirmedSeek() }
+                )) {
                 pendingPreviewSeekPosition = null
-                _uiState.update { it.copy(pendingPreviewSeekPosition = null, previewThumbPositionMs = target) }
+                _uiState.update { it.copy(pendingPreviewSeekPosition = null, previewThumbPositionMs = null) }
+                updatePlaybackTimeline(currentPosition = target)
                 scheduleProgressSyncAfterSeek()
-                if (_uiState.value.showControls) {
-                    showControlsTemporarily()
-                } else {
-                    showSeekOverlayTemporarily()
-                }
-            } else {
-                releaseScrubHold()
+                showControlsTemporarily()
             }
+        }
+        PlayerEvent.OnCancelPreviewSeek -> {
+            val original = danexusSeekSession.cancel()
+            pendingPreviewSeekPosition = null
+            _uiState.update { it.copy(pendingPreviewSeekPosition = null, previewThumbPositionMs = null) }
+            updatePlaybackTimeline(currentPosition = original ?: currentPlaybackPositionMs() ?: 0L)
+            showControlsTemporarily()
         }
         is PlayerEvent.OnSeekTo -> {
             if (_playbackTimeline.value.isLive) return
@@ -2115,5 +2117,30 @@ private fun PlayerRuntimeController.showPlaybackSpeedUnavailable() {
     hideAspectRatioIndicatorJob = scope.launch {
         delay(1500)
         _uiState.update { it.copy(showAspectRatioIndicator = false) }
+    }
+}
+
+
+// This pause is retained until confirmation; key release and idle timers cannot resume it.
+private fun PlayerRuntimeController.pauseForConfirmedSeek() {
+    userPausedManually = true
+    shouldEnforceAutoplayOnFirstReady = false
+    cancelPauseOverlay()
+    setPlaybackPaused(true)
+    if (isUsingMpvEngine()) {
+        stopProgressUpdates()
+        stopWatchProgressSaving()
+        emitPauseScrobbleForCurrentProgress()
+    }
+}
+
+private fun PlayerRuntimeController.resumeAfterConfirmedSeek() {
+    userPausedManually = false
+    cancelPauseOverlay()
+    setPlaybackPaused(false)
+    if (isUsingMpvEngine()) {
+        startProgressUpdates()
+        startWatchProgressSaving()
+        emitScrobbleStart()
     }
 }

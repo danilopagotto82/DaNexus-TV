@@ -218,7 +218,8 @@ fun PlayerScreen(
     onPlaybackErrorBack: () -> Unit = { onBackPress(null, null, null, false, false) },
     onPlaybackEnded: ((nextVideoId: String?, nextSeason: Int?, nextEpisode: Int?, exitReason: PlayerExitReason?) -> Unit)? = null,
     onPlayRecommendation: (PostPlayRecommendation, manualSelection: Boolean) -> Unit = { _, _ -> },
-    onOpenRecommendationDetails: (PostPlayRecommendation) -> Unit = {}
+    onOpenRecommendationDetails: (PostPlayRecommendation) -> Unit = {},
+    onNavigateToDetail: (String, String, String?) -> Unit = { _, _, _ -> }
 ) {
     var showDanexusPreviewSync by remember { mutableStateOf(false) }
     LaunchedEffect(viewModel) {
@@ -229,6 +230,7 @@ fun PlayerScreen(
     val savedUiState by viewModel.uiState.collectAsState()
     val isV2 = LocalV2Appearance.current != null
     val uiState = savedUiState.copy(controlLayout = com.nuvio.tv.data.local.PlayerControlLayout.effective(savedUiState.controlLayout, isV2))
+    var danexusFilmstripReady by remember(uiState.currentStreamUrl) { mutableStateOf(false) }
     PartyPlayerBinding(viewModel)
     val partyState by rememberPartyRuntime().state.collectAsState()
     val cinematicGlass = LocalV2Appearance.current?.visualStyle == com.nuvio.tv.domain.model.VisualStyle.CINEMATIC_GLASS
@@ -367,6 +369,10 @@ fun PlayerScreen(
 
     val handleBackPress = handleBackPress@{
         if (externalHandoffInProgress) return@handleBackPress
+        if (uiState.pendingPreviewSeekPosition != null) {
+            viewModel.onEvent(PlayerEvent.OnCancelPreviewSeek)
+            return@handleBackPress
+        }
         // "Generate thumbnails before play": Back = start watching now.
         if (SeekThumbnails.prepareUi.value !is SeekThumbnails.PrepareUi.Hidden) {
             SeekThumbnails.startWatchingNow()
@@ -918,20 +924,27 @@ fun PlayerScreen(
                         uiState.error != null
                 if (panelOrDialogOpen) return@onKeyEvent false
 
+                if (uiState.pendingPreviewSeekPosition != null &&
+                    keyEvent.nativeKeyEvent.action == KeyEvent.ACTION_DOWN &&
+                    keyEvent.nativeKeyEvent.keyCode in setOf(
+                        KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_NUMPAD_ENTER,
+                        KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_PLAY
+                    )) {
+                    if (keyEvent.nativeKeyEvent.repeatCount == 0) viewModel.onEvent(PlayerEvent.OnCommitPreviewSeek)
+                    return@onKeyEvent true
+                }
+
                 if (keyEvent.nativeKeyEvent.action == KeyEvent.ACTION_UP) {
                     when (keyEvent.nativeKeyEvent.keyCode) {
                         KeyEvent.KEYCODE_DPAD_LEFT,
                         KeyEvent.KEYCODE_DPAD_RIGHT -> {
                             if (!uiState.showControls) {
-                                viewModel.onEvent(PlayerEvent.OnCommitPreviewSeek)
                                 return@onKeyEvent true
                             }
                         }
-                        // Media FF/RW commit on release, matching
-                        // the DPAD preview/commit model.
+                        // Key release keeps the selection pending until OK/Play confirms it.
                         KeyEvent.KEYCODE_MEDIA_FAST_FORWARD,
                         KeyEvent.KEYCODE_MEDIA_REWIND -> {
-                            viewModel.onEvent(PlayerEvent.OnCommitPreviewSeek)
                             return@onKeyEvent true
                         }
                     }
@@ -941,22 +954,13 @@ fun PlayerScreen(
                 if (keyEvent.nativeKeyEvent.action == KeyEvent.ACTION_DOWN) {
                     if (uiState.showPauseOverlay) {
                         when (keyEvent.nativeKeyEvent.keyCode) {
-                            KeyEvent.KEYCODE_DPAD_CENTER,
-                            KeyEvent.KEYCODE_ENTER,
-                            KeyEvent.KEYCODE_NUMPAD_ENTER,
-                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE,
-                            KeyEvent.KEYCODE_MEDIA_PLAY -> {
-                                // Resume directly from pause overlay in one click.
-                                viewModel.onEvent(PlayerEvent.OnPlayPause)
+                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_PLAY -> {
+                                if (keyEvent.nativeKeyEvent.repeatCount == 0) viewModel.onEvent(PlayerEvent.OnPlayPause)
+                                return@onKeyEvent true
                             }
-                            KeyEvent.KEYCODE_MEDIA_PAUSE,
-                            KeyEvent.KEYCODE_MEDIA_STOP -> {
-                            }
-                            else -> {
-                                viewModel.onEvent(PlayerEvent.OnDismissPauseOverlay)
-                            }
+                            KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_MEDIA_STOP -> return@onKeyEvent true
+                            else -> return@onKeyEvent false
                         }
-                        return@onKeyEvent true
                     }
                     when (keyEvent.nativeKeyEvent.keyCode) {
                         KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_NUMPAD_ENTER -> {
@@ -1244,7 +1248,8 @@ fun PlayerScreen(
             )
         }
 
-        DanexusSeekPreviewHost(viewModel, showDanexusPreviewSync) { showDanexusPreviewSync = false }
+        DanexusSeekPreviewHost(viewModel, showDanexusPreviewSync,
+            onAvailabilityChanged = { danexusFilmstripReady = it }) { showDanexusPreviewSync = false }
 
         // Keep recommendation trailers and the small video window outside the UI dim layer.
         // Controls remain above that window, preserving the existing overlay ordering.
@@ -1306,6 +1311,12 @@ fun PlayerScreen(
                 type = uiState.contentType,
                 description = uiState.description,
                 cast = uiState.castMembers,
+            directors = uiState.directorMembers,
+            onResume = { viewModel.onEvent(PlayerEvent.OnPlayPause) },
+            onNavigateToDetail = { id, type, addon ->
+                viewModel.stopAndRelease()
+                onNavigateToDetail(id, type, addon)
+            },
                 showClock = !viewModel.playbackTimeline.collectAsState().value.isLive,
                 modifier = Modifier
                     .fillMaxSize()
@@ -1428,7 +1439,9 @@ fun PlayerScreen(
                     )
                 })
             }
-            SeekThumbnailOverlayHost(uiState = uiState, viewModel = viewModel, modifier = Modifier.zIndex(2.65f))
+            if (!danexusFilmstripReady) {
+                SeekThumbnailOverlayHost(uiState = uiState, viewModel = viewModel, modifier = Modifier.zIndex(2.65f))
+            }
             if (!prepareVisible) SeekThumbnailProgressHint(uiState = uiState, modifier = Modifier.zIndex(2.65f))
 
             // Keep the selected HUD mode, but give utility sheets exclusive visual space.
@@ -3265,7 +3278,6 @@ private fun ProgressBar(
                     when (keyEvent.nativeKeyEvent.keyCode) {
                         KeyEvent.KEYCODE_DPAD_LEFT,
                         KeyEvent.KEYCODE_DPAD_RIGHT -> {
-                            onSeekCommit()
                             return@onPreviewKeyEvent true
                         }
                     }
@@ -3275,6 +3287,10 @@ private fun ProgressBar(
                 // testing additional key handling for DPAD_LEFT and DPAD_RIGHT to allow seek in focus (check)
                 if (keyEvent.nativeKeyEvent.action == KeyEvent.ACTION_DOWN) {
                     when (keyEvent.nativeKeyEvent.keyCode) {
+                        KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_NUMPAD_ENTER -> {
+                            if (keyEvent.nativeKeyEvent.repeatCount == 0) onSeekCommit()
+                            true
+                        }
                         KeyEvent.KEYCODE_DPAD_DOWN -> {
                             if (downFocusRequester != null) {
                                 try {

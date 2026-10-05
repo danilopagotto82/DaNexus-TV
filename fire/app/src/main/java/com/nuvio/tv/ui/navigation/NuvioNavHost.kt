@@ -857,6 +857,12 @@ private fun PlaybackNavHost(
             }
 
             PlayerScreen(
+                onNavigateToDetail = { id, type, addon ->
+                    navController.navigate(Screen.Detail.createRoute(id, type, addon)) {
+                        popUpTo(Screen.Player.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
                 onBackPress = { currentVideoId, currentSeason, currentEpisode, autoPlayEnabled, playbackCompleted ->
                     val args = backStackEntry.arguments
                     val initialSeason = args?.getString("season")?.toIntOrNull()

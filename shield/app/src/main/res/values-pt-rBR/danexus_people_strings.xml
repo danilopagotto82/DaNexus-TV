@@ -1,0 +1,5 @@
+<resources>
+    <string name="danexus_pause_people">Elenco e direção</string>
+    <string name="danexus_director_badge">Diretor · %1$s</string>
+    <string name="danexus_pause_resume">Continuar assistindo</string>
+</resources>

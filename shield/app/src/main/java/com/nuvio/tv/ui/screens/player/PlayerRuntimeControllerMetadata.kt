@@ -191,11 +191,13 @@ private suspend fun PlayerRuntimeController.enrichDescriptionFromTmdb(id: String
         }
     }
 
-    // Enrich cast from TMDB if addon didn't provide any.
-    if (settings.useBasicInfo && enrichment.castMembers.isNotEmpty()) {
+    // Native people IDs make the pause badges open the correct actor/director screen.
+    if (settings.useCredits) {
         _uiState.update { state ->
-            if (state.castMembers.isEmpty()) state.copy(castMembers = enrichment.castMembers)
-            else state
+            state.copy(
+                castMembers = enrichment.castMembers.takeIf { it.isNotEmpty() } ?: state.castMembers,
+                directorMembers = enrichment.directorMembers
+            )
         }
     }
 

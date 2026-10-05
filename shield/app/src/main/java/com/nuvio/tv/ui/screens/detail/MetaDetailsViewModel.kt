@@ -1964,7 +1964,6 @@ class MetaDetailsViewModel @Inject constructor(
         if (enrichment != null && settings.useCredits) {
             val peopleCredits = buildList {
                 addAll(enrichment.directorMembers)
-                addAll(enrichment.writerMembers)
                 addAll(enrichment.castMembers)
             }
                 .filter { it.name.isNotBlank() }

@@ -2,21 +2,21 @@
   "fire": {
     "upstream": "https://github.com/NuvioMedia/NuvioTV",
     "base": "1.1.0-beta.4",
-    "customCommit": "1b8baef9fed95cebc87ce0575418d3a3fb8fcf18",
-    "files": 1554,
-    "status": "PT-BR artwork and MDBList client configured; focused tests passed; physical validation pending",
-    "version": "1.1.0-beta.4-danexus.6"
+    "customCommit": "b39005efea3b92ffac45bbf0ecbc6f9c35ccdaf1",
+    "files": 1562,
+    "status": "Native TMDB, confirmed seek filmstrip and actors/directors updated; focused tests passed; physical validation pending",
+    "version": "1.1.0-beta.4-danexus.7"
   },
   "shield": {
     "upstream": "https://github.com/ysosrs123/NuvioTV-Fork",
     "base": "1.1.0-beta-nt4",
-    "customCommit": "b1e503d35f4626bb28237e9f98b8d7e218902084",
+    "customCommit": "c3d64875f1c88d10dfb566c9ce7980e8da18e6a3",
     "parents": [
       "26e959c978c2039ceeee62317b5e2c6e58b8cb62",
       "7faf8969d202d056d0b32e3bec66f2315a346c54"
     ],
-    "files": 2722,
-    "status": "PT-BR artwork and MDBList client configured; focused tests passed; physical validation pending",
-    "version": "1.1.0-beta-nt4-danexus.4"
+    "files": 2730,
+    "status": "Native TMDB, confirmed seek filmstrip and actors/directors updated; focused tests passed; physical validation pending",
+    "version": "1.1.0-beta-nt4-danexus.5"
   }
 }
