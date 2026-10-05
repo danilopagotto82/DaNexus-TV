@@ -13,7 +13,7 @@
     },
     {
       "label": "Downloads públicos",
-      "status": "active"
+      "status": "done"
     },
     {
       "label": "Trakt nos aparelhos",
@@ -25,14 +25,14 @@
     }
   ],
   "fire": {
-    "downloadVerified": false,
+    "downloadVerified": true,
     "status": "180 testes focados sem falhas. Arte, prévias e pessoas prontas para conferir no aparelho.",
     "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.7/DaNexus-FireTV-1.1.0-beta.4-danexus.7-armeabi-v7a.apk",
     "meta": "Versão: 1.1.0-beta.4-danexus.7 · com.danexus.tv.fire.debug · armeabi-v7a",
     "sha256": "8252b011e77f7d56f8678d13224f4708823df6f6138136ab46340a94f20041e0"
   },
   "shield": {
-    "downloadVerified": false,
+    "downloadVerified": true,
     "status": "206 testes focados sem falhas. Arte, prévias e pessoas prontas para conferir no aparelho.",
     "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.5/DaNexus-Shield-1.1.0-beta-nt4-danexus.5-arm64-v8a.apk",
     "meta": "Versão: 1.1.0-beta-nt4-danexus.5 · com.danexus.tv.shield.debug · arm64-v8a",
