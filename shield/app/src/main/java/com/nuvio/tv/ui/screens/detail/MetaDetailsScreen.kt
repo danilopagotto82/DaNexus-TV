@@ -2284,9 +2284,10 @@ private fun MetaDetailsContent(
     // Always-composed bottom gradient alpha (avoids add/remove during scroll)
 
     Box(
+        // PersistentDetailBackdrop is drawn by the parent. Keep this content
+        // layer transparent so loaded artwork remains visible behind the hero.
         modifier = modifier
             .fillMaxSize()
-            .background(backgroundColor)
             .onPreviewKeyEvent { randomEpisodePlaybackPending }
     ) {
         // Sticky background — backdrop or trailer

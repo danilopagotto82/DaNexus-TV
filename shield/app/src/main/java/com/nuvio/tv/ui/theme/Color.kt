@@ -212,9 +212,9 @@ class NuvioColorScheme(
         imageScrim = ImageScrim,
         posterFallback = PosterFallback,
         videoControlsScrim = VideoControlsScrim,
-        glassPanelTop = Color(0xD64A4F59),
-        glassPanelMiddle = Color(0xCC3F454F),
-        glassPanelBottom = Color(0xC640474F),
+        glassPanelTop = Color(0xDC090A0D),
+        glassPanelMiddle = Color(0xCC14171C),
+        glassPanelBottom = Color(0xDE080F19),
         glow = FocusRing.copy(alpha = 0.32f)
     )
 

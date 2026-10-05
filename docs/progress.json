@@ -1,48 +1,52 @@
 {
-  "updatedAt": "2026-10-04T18:30:41.622723-03:00",
-  "status": "Validação das correções de backdrop e recomendações. Shield candidato instalado; Fire anterior publicado.",
-  "eta": "Estimativa 19:20–20:20, sujeita aos testes e à validação física. As correções funcionais têm prioridade sobre o prazo.",
+  "updatedAt": "2026-10-04T21:40:24.089933-03:00",
+  "status": "Revisão 13.1 concluída no código. APKs e testes técnicos aprovados; downloads em conferência final.",
+  "eta": "Aprovação visual e teste completo de reprodução na TV pendentes do Dan. A FASE 12 permanece aberta.",
   "steps": [
     {
-      "label": "Auditoria",
-      "status": "done"
-    },
-    {
-      "label": "Interface nt4",
+      "label": "Revisão do visual",
       "status": "done"
     },
     {
       "label": "Build Shield",
-      "status": "pending"
+      "status": "done"
+    },
+    {
+      "label": "Build Fire TV",
+      "status": "done"
     },
     {
       "label": "Testes essenciais",
-      "status": "active"
+      "status": "done"
     },
     {
-      "label": "Smoke Shield",
-      "status": "pending"
+      "label": "Navegação Shield",
+      "status": "done"
     },
     {
       "label": "APKs e assinatura",
-      "status": "pending"
+      "status": "done"
     },
     {
-      "label": "Publicação",
-      "status": "pending"
+      "label": "Downloads públicos",
+      "status": "active"
     },
     {
-      "label": "Entrega móvel",
+      "label": "Checklist no celular",
       "status": "pending"
     }
   ],
   "fire": {
-    "downloadVerified": true,
-    "status": "Versão anterior publicada. Correção de recomendações preparada; novo build e testes pendentes."
+    "downloadVerified": false,
+    "status": "Novo APK pronto; conferência do download em andamento.",
+    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.4/DaNexus-FireTV-1.1.0-beta.4-danexus.4-armeabi-v7a.apk"
   },
   "shield": {
     "downloadVerified": false,
-    "status": "Backdrop e recomendações corrigidos no código. Testes essenciais em nova rodada; APK final pendente."
+    "status": "119 testes essenciais sem falhas; navegação de recomendações verificada na Shield.",
+    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.2/DaNexus-Shield-1.1.0-beta-nt4-danexus.2-arm64-v8a.apk",
+    "meta": "Versão: 1.1.0-beta-nt4-danexus.2 · Pacote: com.danexus.tv.shield.debug · arm64-v8a · 87.710.804 bytes",
+    "sha256": "7809b62d71bc8109989425f3da6cdee4b1fed48ea301b5c981d2bb6ede68e5e6"
   },
   "downloaderCode": null
 }

@@ -52,7 +52,7 @@
     <string name="danexus_source_next_label">NEXT SOURCE</string>
     <string name="danexus_source_loading_next">Finding next sources…</string>
     <string name="danexus_recommend_film">Recommend to a profile</string>
-    <string name="danexus_recommend_dialog_desc">Choose a recipient. This recommendation appears in that profile on this device.</string>
+    <string name="danexus_recommend_dialog_desc">Select one or more profiles, then send. Recommendations stay on this device.</string>
     <string name="danexus_recommend_no_profiles">Create another profile in Settings → Profiles to share recommendations.</string>
     <string name="danexus_recommend_sent">Sent ✓</string>
     <string name="danexus_recommend_received">Received</string>
@@ -64,4 +64,6 @@
     <string name="danexus_recommend_new">New recommendation</string>
     <string name="danexus_recommend_remove">Remove</string>
     <string name="danexus_recommend_inbox_desc">Your recommendations inbox. Filter by sender profile or view titles you recommended.</string>
+    <string name="danexus_recommend_send_selected">Send selected (%1$d)</string>
+    <string name="danexus_recommend_send_all">Send to all</string>
 </resources>

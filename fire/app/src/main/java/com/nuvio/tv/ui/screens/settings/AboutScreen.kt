@@ -2,6 +2,8 @@
 
 package com.nuvio.tv.ui.screens.settings
 
+import com.nuvio.tv.ui.theme.DanexusCinematic
+
 import com.nuvio.tv.ui.theme.NuvioTheme
 
 import android.content.Intent
@@ -159,7 +161,7 @@ fun AboutSettingsContent(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .background(
-                                        color = NuvioTheme.colors.BackgroundCard,
+                                        brush = DanexusCinematic.panelBrush,
                                         shape = RoundedCornerShape(18.dp)
                                     )
                                     .padding(16.dp),

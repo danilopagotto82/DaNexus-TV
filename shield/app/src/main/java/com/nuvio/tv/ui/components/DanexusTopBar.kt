@@ -1,6 +1,8 @@
 @file:OptIn(androidx.tv.material3.ExperimentalTvMaterial3Api::class)
 package com.nuvio.tv.ui.components
 
+import com.nuvio.tv.ui.theme.DanexusCinematic
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
@@ -52,8 +54,8 @@ fun DanexusTopBar(items: List<DrawerItem>, selectedRoute: String?, options: Dane
     val shape=RoundedCornerShape(bottomStart=12.dp,bottomEnd=12.dp)
     Row(modifier.fillMaxWidth().height(58.dp)
         .then(if(v2) Modifier.nuvioGlass(GlassRole.NAVIGATION,shape=shape) else Modifier
-            .background(Brush.verticalGradient(listOf(Color(0xFB080D18), Color(0xEE10182A))))
-            .border(1.dp,Color(0x334BB3CE),shape))
+            .background(DanexusCinematic.panelBrush)
+            .border(1.dp,DanexusCinematic.edge,shape))
         .padding(horizontal=18.dp,vertical=8.dp),
         verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(5.dp)) {
         Button(onClick=onProfile,modifier=Modifier.focusRequester(firstFocus).widthIn(max=110.dp),
@@ -63,7 +65,7 @@ fun DanexusTopBar(items: List<DrawerItem>, selectedRoute: String?, options: Dane
             Spacer(Modifier.width(6.dp))
             Text(profileName,fontSize=14.sp,maxLines=1,overflow=TextOverflow.Ellipsis)
         }
-        Box(Modifier.padding(horizontal=5.dp).width(1.dp).height(23.dp).background(Color(0xFF34425A)))
+        Box(Modifier.padding(horizontal=5.dp).width(1.dp).height(23.dp).background(DanexusCinematic.edge))
         Row(Modifier.weight(1f),horizontalArrangement=Arrangement.spacedBy(2.dp),verticalAlignment=Alignment.CenterVertically) {
             items.forEach { item ->
                 var focused by remember(item.route) { mutableStateOf(false) }
@@ -76,8 +78,8 @@ fun DanexusTopBar(items: List<DrawerItem>, selectedRoute: String?, options: Dane
                     shape=ButtonDefaults.shape(buttonShape),
                     scale=ButtonDefaults.scale(focusedScale=1.025f),
                     colors=ButtonDefaults.colors(
-                        containerColor=if(selected) Color(0xFF20374A) else Color.Transparent,
-                        contentColor=if(selected) Color(0xFF9CE5EE) else Color(0xFFC3CCE0))) {
+                        containerColor=if(selected) DanexusCinematic.selectedSurface else Color.Transparent,
+                        contentColor=if(selected) DanexusCinematic.text else DanexusCinematic.secondaryText)) {
                     if(options.expandLabels) {
                         item.icon?.let { Icon(it,item.label,Modifier.size(19.dp)) }
                         item.iconRes?.let { resource -> val context=androidx.compose.ui.platform.LocalContext.current
@@ -92,7 +94,7 @@ fun DanexusTopBar(items: List<DrawerItem>, selectedRoute: String?, options: Dane
                 }
             }
         }
-        Box(Modifier.padding(horizontal=5.dp).width(1.dp).height(23.dp).background(Color(0xFF34425A)))
+        Box(Modifier.padding(horizontal=5.dp).width(1.dp).height(23.dp).background(DanexusCinematic.edge))
         if(options.showClock) DanexusClock(Modifier.width(42.dp))
         BrandWordmark(Modifier.padding(start=7.dp).width(123.dp).height(40.dp),contentDescription="DaNexus")
     }

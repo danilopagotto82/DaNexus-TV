@@ -45,7 +45,8 @@ class PlayerControlLayoutTest {
     @Test fun `edge or non-step moves preserve arrangement`() {
         val layout = PlayerControlLayout.default()
         assertEquals(layout, layout.move(play, -1)); assertEquals(layout, layout.move(play, 5))
-        assertEquals(layout, layout.move(PlayerControlAction.INFO, 1))
+        assertEquals(layout, layout.move(PlayerControlAction.PREVIEW_SYNC, 1))
+        assertNotEquals(layout, layout.move(PlayerControlAction.INFO, 1))
     }
     @Test fun `move into a new group appends once and preserves visibility and other order`() {
         val before = PlayerControlLayout.default().withVisibility(audio, false)

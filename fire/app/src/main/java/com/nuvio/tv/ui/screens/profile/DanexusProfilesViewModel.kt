@@ -38,9 +38,14 @@ class DanexusProfilesViewModel @Inject constructor(
         }
     }
     fun refresh() { _items.value = store.read() }
-    fun send(to: Int, meta: Meta) {
-        if (profileManager.profiles.value.none { it.id == to }) return
-        store.send(profileManager.activeProfileId.value, to, meta); refresh()
+    fun send(to: Int, meta: Meta) = send(listOf(to), meta)
+    fun send(to: Collection<Int>, meta: Meta) {
+        val active = profileManager.activeProfileId.value
+        val available = profileManager.profiles.value.map { it.id }.toSet()
+        val recipients = com.nuvio.tv.core.danexus.ProfileRecommendationRules.recipients(active, to, available)
+        if (recipients.isEmpty()) return
+        store.send(active, recipients, meta)
+        refresh()
     }
     fun open(item: ProfileRecommendation) { store.markSeen(item.key, profileManager.activeProfileId.value); refresh() }
     fun dismiss(item: ProfileRecommendation) { store.dismiss(item.key, profileManager.activeProfileId.value); refresh() }

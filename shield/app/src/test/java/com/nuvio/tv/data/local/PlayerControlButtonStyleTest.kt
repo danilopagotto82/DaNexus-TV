@@ -37,8 +37,9 @@ class PlayerControlButtonStyleTest {
             val l=PlayerControlLayout.original(v2)
             if (v2) assertEquals(listOf(PlayerControlAction.STATS,PlayerControlAction.AUDIO,PlayerControlAction.SUBTITLES,PlayerControlAction.SOURCES,PlayerControlAction.EPISODES),
                 l.entries.filter { it.group==PlayerControlGroup.RIGHT && it.visible }.take(5).map { it.action })
-            assertEquals(15,l.entries.count { it.visible });assertEquals(PlayerControlButtonStyle.PREVIOUS,l.style)
+            assertEquals(16,l.entries.count { it.visible });assertEquals(PlayerControlButtonStyle.PREVIOUS,l.style)
             assertTrue(l.entries.single { it.action==PlayerControlAction.SPEED }.visible)
+            assertTrue(l.entries.single { it.action==PlayerControlAction.PREVIEW_SYNC }.visible)
             assertEquals(if(v2) PlayerControlGroup.RIGHT else PlayerControlGroup.LEFT,l.entries.single { it.action==PlayerControlAction.EPISODES }.group)
         }
     }

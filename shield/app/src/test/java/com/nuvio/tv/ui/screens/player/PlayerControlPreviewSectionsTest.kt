@@ -9,7 +9,7 @@ class PlayerControlPreviewSectionsTest {
     private val more=PlayerControlAction.MORE
     private val speed=PlayerControlAction.SPEED
     private val info=PlayerControlAction.INFO
-    private val extras=setOf(speed,PlayerControlAction.ASPECT,PlayerControlAction.EXTERNAL,PlayerControlAction.ENGINE,PlayerControlAction.REPORT)
+    private val extras=setOf(speed,PlayerControlAction.ASPECT,PlayerControlAction.EXTERNAL,PlayerControlAction.ENGINE,PlayerControlAction.REPORT,PlayerControlAction.PREVIEW_SYNC)
     private fun plan(l:PlayerControlLayout,available:Set<PlayerControlAction> = all,width:Int=320,preview:Boolean=true,size:Int=40,height:Int=20,gap:Int=10)=
         playerControlPrimaryDeckPlan(l,available,all.associateWith { PlayerControlDeckSize(size,height) },width,gap,preview,15)
     private fun PlayerControlDeckPlan.left()=cells.filter { it.hidden && it.x < moreLabelX }.map { it.action }.toSet()
@@ -64,7 +64,7 @@ class PlayerControlPreviewSectionsTest {
         assertEquals(speed,p.neighbour(info,PlayerControlDirection.RIGHT))
         assertEquals(info,p.neighbour(speed,PlayerControlDirection.LEFT))
         assertEquals(PlayerControlAction.ENGINE,p.neighbour(speed,PlayerControlDirection.DOWN))
-        assertEquals(PlayerControlAction.ASPECT,p.neighbour(PlayerControlAction.ENGINE,PlayerControlDirection.UP))
+        assertEquals(speed,p.neighbour(PlayerControlAction.ENGINE,PlayerControlDirection.UP))
         val up=p.neighbour(info,PlayerControlDirection.UP)
         assertNotNull(up);assertFalse(p.cells.single { it.action==up }.hidden)
     }

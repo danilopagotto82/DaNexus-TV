@@ -2,6 +2,8 @@
 
 package com.nuvio.tv.ui.screens.settings
 
+import com.nuvio.tv.ui.theme.DanexusCinematic
+
 import com.nuvio.tv.ui.v2.appearance.LocalV2Appearance
 import com.nuvio.tv.ui.v2.components.GlassRole
 import com.nuvio.tv.ui.v2.components.nuvioGlass
@@ -216,6 +218,7 @@ internal fun SettingsStandaloneScaffold(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(DanexusCinematic.screenBrush)
             .padding(horizontal = NuvioTheme.spacing.xxl, vertical = NuvioTheme.spacing.xl)
     ) {
         SettingsWorkspaceSurface(
@@ -246,12 +249,7 @@ internal fun SettingsBrandPanel(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(SettingsContainerRadius))
-            .background(NuvioTheme.colors.BackgroundElevated)
-            .border(
-                width = NuvioTheme.spacing.hairline,
-                color = NuvioTheme.colors.Border,
-                shape = RoundedCornerShape(SettingsContainerRadius)
-            )
+            .background(DanexusCinematic.panelBrush)
             .padding(26.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start
@@ -334,12 +332,7 @@ internal fun SettingsWorkspaceSurface(
         Box(
             modifier = modifier
                 .clip(RoundedCornerShape(SettingsContainerRadius))
-                .background(NuvioTheme.colors.BackgroundElevated)
-                .border(
-                    width = NuvioTheme.spacing.hairline,
-                    color = NuvioTheme.colors.Border,
-                    shape = RoundedCornerShape(SettingsContainerRadius)
-                )
+                .background(DanexusCinematic.panelBrush)
                 .padding(20.dp),
             content = content
         )
@@ -682,12 +675,7 @@ internal fun SettingsGroupCard(
             modifier = modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(SettingsSecondaryCardRadius))
-                .background(NuvioTheme.colors.BackgroundCard)
-                .border(
-                    width = NuvioTheme.spacing.hairline,
-                    color = NuvioTheme.colors.Border,
-                    shape = RoundedCornerShape(SettingsSecondaryCardRadius)
-                )
+                .background(DanexusCinematic.cardBrush)
                 .padding(14.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {

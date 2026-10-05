@@ -1,5 +1,7 @@
 package com.nuvio.tv.ui.screens.player
 
+import com.nuvio.tv.ui.theme.DanexusCinematic
+
 import android.view.KeyEvent
 import com.nuvio.tv.ui.v2.appearance.LocalV2Appearance
 import com.nuvio.tv.domain.model.VisualStyle
@@ -37,7 +39,7 @@ internal fun PlayerOverlayScaffold(
     captureKeys: Boolean = true,
     dismissOnCenter: Boolean = false,
     dismissOnBackgroundClick: Boolean = false,
-    overlayTint: Color = Color.Black.copy(alpha = 0.34f),
+    overlayTint: Color = DanexusCinematic.navy.copy(alpha = 0.34f),
     contentPadding: PaddingValues = PaddingValues(),
     topEndContent: (@Composable () -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit
@@ -125,7 +127,7 @@ internal fun PlayerOverlayScaffold(
                                 0f to Color.Black.copy(alpha = 0.6f),
                                 0.3f to Color.Black.copy(alpha = 0.4f),
                                 0.6f to Color.Black.copy(alpha = 0.2f),
-                                1f to Color.Transparent
+                                1f to DanexusCinematic.navy.copy(alpha = 0.16f)
                             )
                         )
                         onDrawBehind {

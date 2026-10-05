@@ -1,0 +1,18 @@
+{
+  "package": "com.danexus.tv.fire.debug",
+  "versionCode": 1070,
+  "versionName": "1.1.0-beta.4-danexus.4",
+  "abis": [
+    "armeabi-v7a"
+  ],
+  "certificateSha256": "77066ec7da0b758bbab4304a2ae64e22ed0f381d1ed29f85abfb1be3d26f1419",
+  "bytes": 81185200,
+  "sha256": "f64ce8a69103bb30b69f2bcfd1e0044de290aa0c51d6a2f86eb14cf35457a5e4",
+  "sourceCommit": "46e4837ac899c8883c43771363bae0a920511494",
+  "sourceSha256": "a319328d7f41270d6a74bd9bb351842dfc76c5d15a898562f11636da847234e1",
+  "tag": "v1.1.0-beta.4-danexus.4",
+  "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.4/DaNexus-FireTV-1.1.0-beta.4-danexus.4-armeabi-v7a.apk",
+  "tests": 71,
+  "failures": 0,
+  "physicalApproval": "PENDING_DAN"
+}

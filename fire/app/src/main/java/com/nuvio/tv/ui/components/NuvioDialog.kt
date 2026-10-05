@@ -1,5 +1,7 @@
 package com.nuvio.tv.ui.components
 
+import com.nuvio.tv.ui.theme.DanexusCinematic
+
 import com.nuvio.tv.ui.v2.appearance.LocalV2Appearance
 import com.nuvio.tv.ui.v2.components.GlassRole
 import com.nuvio.tv.ui.v2.components.nuvioGlass
@@ -69,7 +71,7 @@ fun NuvioDialog(
     val backgroundModifier = if (LocalV2Appearance.current != null && containerBrush == null) {
         Modifier.nuvioGlass(GlassRole.MODAL,shape=containerShape)
     } else if (containerBrush == null) {
-        Modifier.background(NuvioTheme.colors.BackgroundElevated, containerShape)
+        Modifier.background(DanexusCinematic.panelBrush, containerShape)
     } else {
         Modifier.background(containerBrush, containerShape)
     }
@@ -86,7 +88,7 @@ fun NuvioDialog(
                 .then(backgroundModifier)
                 .border(
                     containerBorderWidth,
-                    containerBorderColor ?: NuvioTheme.colors.Border,
+                    containerBorderColor ?: DanexusCinematic.edge,
                     containerShape
                 )
                 .onPreviewKeyEvent { event ->

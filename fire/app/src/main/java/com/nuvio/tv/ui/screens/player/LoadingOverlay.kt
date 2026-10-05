@@ -1,5 +1,7 @@
 package com.nuvio.tv.ui.screens.player
 
+import com.nuvio.tv.ui.theme.DanexusCinematic
+
 import com.nuvio.tv.ui.theme.NuvioMotion
 
 import com.nuvio.tv.ui.theme.NuvioTheme
@@ -109,7 +111,7 @@ fun LoadingOverlay(
                     0f to Color(0x4D000000),
                     0.35f to Color(0x99000000),
                     0.7f to Color(0xCC000000),
-                    1f to Color(0xE6000000)
+                    1f to DanexusCinematic.navy.copy(alpha = 0.9f)
                 )
             )
         }

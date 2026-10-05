@@ -1,0 +1,44 @@
+{
+  "package": "com.danexus.tv.shield.debug",
+  "versionCode": 1459,
+  "versionName": "1.1.0-beta-nt4-danexus.2",
+  "abis": [
+    "arm64-v8a"
+  ],
+  "certificateSha256": "77066ec7da0b758bbab4304a2ae64e22ed0f381d1ed29f85abfb1be3d26f1419",
+  "bytes": 87710804,
+  "sha256": "7809b62d71bc8109989425f3da6cdee4b1fed48ea301b5c981d2bb6ede68e5e6",
+  "sourceCommit": "a5df76b1c4f693283850095946b02c7665510e13",
+  "sourceSha256": "ef65395bfe63d7219988f7b8f7e6d4e40d1cbde415d388045232f9ca000e9f25",
+  "tag": "v1.1.0-beta-nt4-danexus.2",
+  "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.2/DaNexus-Shield-1.1.0-beta-nt4-danexus.2-arm64-v8a.apk",
+  "tests": 119,
+  "failures": 0,
+  "physicalApproval": "PENDING_DAN",
+  "tvTestedArtifactSha256": "6725f5e8a627d0dd8637599f2137eb9a908b91a57575fbc19e887c81016517b4",
+  "finalTextRefinementInstalled": true,
+  "finalChecks": [
+    "APK final instalado e SHA-256 instalado conferido",
+    "seis perfis anteriores preservados",
+    "histórico visível ao retornar à tela inicial",
+    "recomendação anterior preservada ao reabrir o app",
+    "foco visível no card",
+    "texto final da confirmação de remoção",
+    "Cancelar em foco inicial e cancelamento sem apagar a recomendação"
+  ],
+  "installedArtifactSha256": "7809b62d71bc8109989425f3da6cdee4b1fed48ea301b5c981d2bb6ede68e5e6",
+  "playbackSmoke": {
+    "status": "PASS_LIMITED_SMOKE",
+    "title": "Pesadelo na Cozinha",
+    "episode": "T5:E9",
+    "summary": "Pausa, retomada, foco nos controles, avanço, retrocesso, seleção manual de fonte, tentativa de outra fonte e retomada do vídeo no player interno; saída para detalhes e início",
+    "positionsSeconds": {
+      "beforeForward": 1966,
+      "afterForward": 1980,
+      "afterBackward": 1972
+    },
+    "scope": "Single existing episode; video frames visually inspected. Audio fidelity, HDMI formats, HDR and Dolby Vision not homologated.",
+    "freshCrashObservation": "Exit-info checked during the test; latest exit before playback was USER REQUESTED at 20:39, with no fresh crash in the observed test window"
+  },
+  "finalRecipientCopyPhysicalCheck": "PENDING_DAN; compiled strings verified in both APKs; flow code unchanged from the tested initial candidate"
+}

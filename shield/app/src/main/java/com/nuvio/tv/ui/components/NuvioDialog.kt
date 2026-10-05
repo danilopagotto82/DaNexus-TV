@@ -1,5 +1,7 @@
 package com.nuvio.tv.ui.components
 
+import com.nuvio.tv.ui.theme.DanexusCinematic
+
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.LocalWindowInfo
@@ -75,7 +77,7 @@ fun NuvioDialog(
     val backgroundModifier = if (v2) {
         Modifier.nuvioGlass(GlassRole.MODAL, shape = containerShape)
     } else if (containerBrush == null) {
-        Modifier.background(Color.Black.copy(alpha = 0.85f), containerShape)
+        Modifier.background(DanexusCinematic.panelBrush, containerShape)
     } else {
         Modifier.background(containerBrush, containerShape)
     }

@@ -2,18 +2,21 @@
   "fire": {
     "upstream": "https://github.com/NuvioMedia/NuvioTV",
     "base": "1.1.0-beta.4",
-    "customCommit": "7faf8969d202d056d0b32e3bec66f2315a346c54",
-    "files": 1542
+    "customCommit": "46e4837ac899c8883c43771363bae0a920511494",
+    "files": 1542,
+    "status": "Visual 13.1 technical validation passed; physical approval pending",
+    "version": "1.1.0-beta.4-danexus.4"
   },
   "shield": {
     "upstream": "https://github.com/ysosrs123/NuvioTV-Fork",
     "base": "1.1.0-beta-nt4",
-    "customCommit": "293c7bfc14c96845b68cf9bb6202d9559ec240bb",
+    "customCommit": "a5df76b1c4f693283850095946b02c7665510e13",
     "parents": [
       "26e959c978c2039ceeee62317b5e2c6e58b8cb62",
       "7faf8969d202d056d0b32e3bec66f2315a346c54"
     ],
     "files": 2712,
-    "status": "Integration candidate; APK validation pending"
+    "status": "Visual 13.1 technical validation passed; physical approval pending",
+    "version": "1.1.0-beta-nt4-danexus.2"
   }
 }

@@ -8,7 +8,7 @@ class PlayerControlPopupTest {
     private val all = PlayerControlAction.entries.toSet()
     private val more = PlayerControlAction.MORE
     private val speed = PlayerControlAction.SPEED
-    private val extras = listOf(speed, PlayerControlAction.ASPECT, PlayerControlAction.EXTERNAL, PlayerControlAction.ENGINE, PlayerControlAction.REPORT)
+    private val extras = listOf(speed, PlayerControlAction.ASPECT, PlayerControlAction.EXTERNAL, PlayerControlAction.ENGINE, PlayerControlAction.REPORT, PlayerControlAction.PREVIEW_SYNC)
     private fun primary(l: PlayerControlLayout, preview: Boolean = false, width: Int = 320) = playerControlPrimaryDeckPlan(l, all,
         all.associateWith { PlayerControlDeckSize(70, 40) }, width, 8, preview, 20)
 

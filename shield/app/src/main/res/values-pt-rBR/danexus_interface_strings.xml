@@ -52,7 +52,7 @@
     <string name="danexus_source_next_label">PRÓXIMA FONTE</string>
     <string name="danexus_source_loading_next">Buscando as próximas fontes…</string>
     <string name="danexus_recommend_film">Recomendar para um perfil</string>
-    <string name="danexus_recommend_dialog_desc">Escolha quem vai receber. A recomendação aparece no perfil escolhido, neste aparelho.</string>
+    <string name="danexus_recommend_dialog_desc">Selecione um ou mais perfis e depois envie. As recomendações ficam neste dispositivo.</string>
     <string name="danexus_recommend_no_profiles">Crie outro perfil em Ajustes → Perfis para compartilhar recomendações.</string>
     <string name="danexus_recommend_sent">Enviado ✓</string>
     <string name="danexus_recommend_received">Recebidas</string>
@@ -64,4 +64,6 @@
     <string name="danexus_recommend_new">Nova recomendação</string>
     <string name="danexus_recommend_remove">Remover</string>
     <string name="danexus_recommend_inbox_desc">Sua caixa de recomendações. Filtre pelo perfil que enviou ou confira os títulos que você recomendou.</string>
+    <string name="danexus_recommend_send_selected">Enviar selecionados (%1$d)</string>
+    <string name="danexus_recommend_send_all">Enviar para todos</string>
 </resources>

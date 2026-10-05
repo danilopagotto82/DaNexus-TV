@@ -1,0 +1,12 @@
+<resources>
+    <string name="danexus_recommend_choose_confirm">Marque os perfis e confirme o envio.</string>
+    <string name="danexus_recommend_selected">Selecionado</string>
+    <string name="danexus_recommend_select">Selecionar</string>
+    <string name="danexus_recommend_send_complete">Recomendação enviada.</string>
+    <string name="danexus_recommend_selection_count">Perfis selecionados: %1$d</string>
+    <string name="danexus_recommend_confirm_selected">Enviar (%1$d)</string>
+    <string name="danexus_recommend_cancel">Cancelar</string>
+    <string name="danexus_recommend_missing_profile">Perfil removido</string>
+    <string name="danexus_recommend_remove_title">Remover recomendação?</string>
+    <string name="danexus_recommend_remove_desc">Somente esta recomendação será removida.</string>
+</resources>

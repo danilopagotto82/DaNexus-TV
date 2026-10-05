@@ -1,6 +1,9 @@
 package com.nuvio.tv.core.danexus
 
 internal object ProfileRecommendationRules {
+    fun recipients(active: Int, requested: Collection<Int>, available: Set<Int>): Set<Int> =
+        requested.filterTo(linkedSetOf()) { it != active && it in available }
+
     fun inbox(rows: List<ProfileRecommendation>, active: Int, sent: Boolean, person: Int?) =
         rows.filter { row ->
             if (sent) row.from == active && (person == null || row.to == person)

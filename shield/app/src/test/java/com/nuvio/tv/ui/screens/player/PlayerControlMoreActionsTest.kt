@@ -11,7 +11,7 @@ class PlayerControlMoreActionsTest {
     private val speed=PlayerControlAction.SPEED
     private val primary=PlayerControlAction.STATS
     private val play=PlayerControlAction.PLAY_PAUSE
-    private val extras=setOf(speed,PlayerControlAction.ASPECT,PlayerControlAction.EXTERNAL,PlayerControlAction.ENGINE,PlayerControlAction.REPORT)
+    private val extras=setOf(speed,PlayerControlAction.ASPECT,PlayerControlAction.EXTERNAL,PlayerControlAction.ENGINE,PlayerControlAction.REPORT,PlayerControlAction.PREVIEW_SYNC)
     private fun sizes(width:Int=40,height:Int=20)=all.associateWith { PlayerControlDeckSize(width,height) }
     private fun plan(l:PlayerControlLayout,expanded:Boolean=false,preview:Boolean=false,available:Set<PlayerControlAction> = all)=
         playerControlDeckPlan(l,available,sizes(),320,10,preview,15,expanded)
