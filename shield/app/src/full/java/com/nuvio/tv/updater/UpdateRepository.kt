@@ -30,11 +30,8 @@ class UpdateRepository @Inject constructor(private val gitHubReleaseApi: GitHubR
             .filter { VersionUtils.isRemoteNewer(it.tagName, BuildConfig.VERSION_NAME,
                 ReleaseSelector.versionCode(it), BuildConfig.VERSION_CODE.toLong()) }
             .firstNotNullOfOrNull { release ->
-                AbiSelector.chooseBestApkAsset(release.assets.filter { it.name.startsWith("DaNexus-Shield-", ignoreCase = true) }, supportedAbis)?.takeIf { asset ->
-                    asset.browserDownloadUrl.startsWith(
-                        "https://github.com/${BuildConfig.GITHUB_OWNER}/${BuildConfig.GITHUB_REPO}/releases/download/"
-                    ) && (asset.size == null || asset.size > 0)
-                }?.let { release to it }
+                DanexusUpdateAssets.choose(release, "DaNexus-Shield-", "arm64-v8a")
+                    ?.takeIf { "arm64-v8a" in supportedAbis }?.let { release to it }
             } ?: throw NoEligibleUpdateException()
         val (dto, asset) = selected
         Result.success(AppUpdate(

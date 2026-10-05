@@ -46,6 +46,8 @@ class UpdateViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UpdateUiState())
     val uiState: StateFlow<UpdateUiState> = _uiState.asStateFlow()
     private var updateCheckJob: Job? = null
+    private var lastAutomaticCheckAtMs = 0L
+    private var updatePreferencesLoaded = false
 
     init {
         viewModelScope.launch {
@@ -57,13 +59,22 @@ class UpdateViewModel @Inject constructor(
                     updateChannel = channel
                 )
             }
-            if (enabled && !BuildConfig.IS_DEBUG_BUILD) {
+            updatePreferencesLoaded = true
+            if (enabled) {
                 checkForUpdates(force = false, showNoUpdateFeedback = false)
             }
         }
     }
 
     fun checkForUpdates(force: Boolean, showNoUpdateFeedback: Boolean) {
+        if (!force && !updatePreferencesLoaded) return
+        if (_uiState.value.isDownloading) return
+        if (!force) {
+            if (!_uiState.value.updateBannerEnabled) return
+            val now = System.currentTimeMillis()
+            if (now - lastAutomaticCheckAtMs in 0 until 15 * 60 * 1_000L) return
+            lastAutomaticCheckAtMs = now
+        }
         if (!force && !_uiState.value.updateBannerEnabled) return
 
         updateCheckJob?.cancel()
@@ -185,7 +196,7 @@ class UpdateViewModel @Inject constructor(
         }
         viewModelScope.launch {
             updatePreferences.setUpdateBannerEnabled(enabled)
-            if (enabled && changed && !BuildConfig.IS_DEBUG_BUILD) {
+            if (enabled && changed) {
                 checkForUpdates(force = false, showNoUpdateFeedback = false)
             }
         }
@@ -214,14 +225,14 @@ class UpdateViewModel @Inject constructor(
         }
         viewModelScope.launch {
             updatePreferences.setUpdateChannel(channel)
-            if (!BuildConfig.IS_DEBUG_BUILD) {
-                checkForUpdates(force = true, showNoUpdateFeedback = false)
-            }
+            checkForUpdates(force = true, showNoUpdateFeedback = false)
         }
     }
 
     fun downloadUpdate() {
+        if (_uiState.value.isDownloading || _uiState.value.isChecking) return
         val update = _uiState.value.update ?: return
+        _uiState.update { it.copy(isDownloading = true) }
 
         viewModelScope.launch {
             _uiState.update {
@@ -290,7 +301,9 @@ class UpdateViewModel @Inject constructor(
         }
 
         _uiState.update { it.copy(showUnknownSourcesDialog = false) }
-        ApkInstaller.launchInstall(context, apkFile)
+        runCatching { ApkInstaller.launchInstall(context, apkFile) }.onFailure { error ->
+            _uiState.update { it.copy(errorMessage = error.message, showBanner = true) }
+        }
     }
 
     fun openUnknownSourcesSettings() {

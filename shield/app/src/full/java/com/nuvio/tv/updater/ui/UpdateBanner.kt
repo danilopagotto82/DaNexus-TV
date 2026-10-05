@@ -48,6 +48,7 @@ import com.nuvio.tv.domain.model.AppTheme
 import com.nuvio.tv.ui.theme.NuvioTheme
 import com.nuvio.tv.ui.theme.ThemeColors
 import com.nuvio.tv.ui.theme.accentBrush
+import com.nuvio.tv.updater.DanexusUpdateAssets
 import com.nuvio.tv.updater.UpdateUiState
 import com.nuvio.tv.updater.model.AppUpdate
 
@@ -81,10 +82,10 @@ internal fun UpdateBanner(
         )
         state.isDownloading -> stringResource(R.string.update_preparing_download)
         state.downloadedApkPath != null -> stringResource(R.string.update_download_complete)
-        else -> stringResource(R.string.update_available)
+        else -> DanexusUpdateAssets.notesSummary(update.notes).ifBlank { stringResource(R.string.update_available) }
     }
     val updateLabel = listOfNotNull(
-        update.tag,
+        stringResource(R.string.app_name) + " • " + update.tag,
         update.assetSizeBytes?.let { Formatter.formatShortFileSize(context, it) }
     ).joinToString(separator = " • ")
 

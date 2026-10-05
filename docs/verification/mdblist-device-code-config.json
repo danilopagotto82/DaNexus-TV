@@ -1,0 +1,14 @@
+{
+  "status": "CLIENT_ACCEPTED_DEVICE_CODE_PENDING_USER_LOGIN",
+  "deviceAuthorizationHttpStatus": 200,
+  "pollHttpStatus": 400,
+  "pollError": "authorization_pending",
+  "secretRequired": false,
+  "accountConnected": false,
+  "clientIdSha256": "1f268c02c9caf92498289014239df2a67853b5e2580592e4fb88a64ef7c3e085",
+  "editions": [
+    "fire",
+    "shield"
+  ],
+  "at": "2026-10-05T04:53:09.465678+00:00"
+}

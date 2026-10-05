@@ -16,6 +16,7 @@ import com.nuvio.tv.data.remote.api.TmdbPersonCreditCrew
 import com.nuvio.tv.data.remote.api.TmdbPersonCreditsResponse
 import com.nuvio.tv.data.remote.api.TmdbRecommendationResult
 import com.nuvio.tv.data.remote.api.TmdbVideoResult
+import com.nuvio.tv.domain.model.DEFAULT_TMDB_LANGUAGE
 import com.nuvio.tv.domain.model.ContentType
 import com.nuvio.tv.domain.model.MetaCastMember
 import com.nuvio.tv.domain.model.MetaCompany
@@ -67,7 +68,7 @@ class TmdbMetadataService(
     suspend fun fetchEnrichment(
         tmdbId: String,
         contentType: ContentType,
-        language: String = "en"
+        language: String = DEFAULT_TMDB_LANGUAGE
     ): TmdbEnrichment? =
         withContext(ioDispatcher) {
             val normalizedLanguage = normalizeTmdbLanguage(language)
@@ -86,12 +87,9 @@ class TmdbMetadataService(
             }
 
             try {
-                val includeImageLanguage = buildString {
-                    append(normalizedLanguage.substringBefore("-"))
-                    append(",")
-                    append(normalizedLanguage)
-                    append(",en,null")
-                }
+                // TMDB images carry ISO-639-1 languages, not regional locale tags.
+                val includeImageLanguage = listOf(normalizedLanguage.substringBefore("-"), "en", "null")
+                    .distinct().joinToString(",")
 
                 // Fetch details, credits, images, alt titles, and trailers in parallel
                 val (details, credits, images, ageRating, altTitles, trailers) = coroutineScope {
@@ -297,7 +295,7 @@ class TmdbMetadataService(
                 val collectionName = details?.belongsToCollection?.name
 
                 val logoPath = images?.logos?.let {
-                    selectBestLocalizedImagePath(it, normalizedLanguage)
+                    selectBestLocalizedLogoPath(it, normalizedLanguage)
                 }
 
                 val logo = buildImageUrl(logoPath, size = "w500")
@@ -592,7 +590,7 @@ class TmdbMetadataService(
     suspend fun fetchEpisodeEnrichment(
         tmdbId: String,
         seasonNumbers: List<Int>,
-        language: String = "en"
+        language: String = DEFAULT_TMDB_LANGUAGE
     ): Map<Pair<Int, Int>, TmdbEpisodeEnrichment> = withContext(ioDispatcher) {
         val normalizedLanguage = normalizeTmdbLanguage(language)
         val cacheKey = "$tmdbId:${seasonNumbers.sorted().joinToString(",")}:$normalizedLanguage"
@@ -654,7 +652,7 @@ class TmdbMetadataService(
     suspend fun fetchMoreLikeThis(
         tmdbId: String,
         contentType: ContentType,
-        language: String = "en",
+        language: String = DEFAULT_TMDB_LANGUAGE,
         maxItems: Int = 12
     ): List<MetaPreview> = withContext(ioDispatcher) {
         val normalizedLanguage = normalizeTmdbLanguage(language)
@@ -780,7 +778,7 @@ class TmdbMetadataService(
 
     suspend fun fetchMovieCollection(
         collectionId: Int,
-        language: String = "en"
+        language: String = DEFAULT_TMDB_LANGUAGE
     ): TmdbMovieCollection = withContext(ioDispatcher) {
         val normalizedLanguage = normalizeTmdbLanguage(language)
         val cacheKey = "$collectionId:$normalizedLanguage:collection"
@@ -882,7 +880,7 @@ class TmdbMetadataService(
         entityId: Int,
         sourceType: String,
         fallbackName: String? = null,
-        language: String = "en"
+        language: String = DEFAULT_TMDB_LANGUAGE
     ): TmdbEntityBrowseData? = withContext(ioDispatcher) {
         val normalizedLanguage = normalizeTmdbLanguage(language)
         val normalizedSourceType = normalizeEntitySourceType(sourceType)
@@ -1204,7 +1202,7 @@ class TmdbMetadataService(
             ?.trim()
             ?.takeIf { it.isNotBlank() }
             ?.replace('_', '-')
-            ?: return "en"
+            ?: return DEFAULT_TMDB_LANGUAGE
         // Normalize region code to uppercase (e.g. pt-br -> pt-BR)
         val normalized = raw.split("-").let { parts ->
             if (parts.size == 2) "${parts[0].lowercase(Locale.US)}-${parts[1].uppercase(Locale.US)}"
@@ -1217,11 +1215,24 @@ class TmdbMetadataService(
         }
     }
 
+    /** Do not replace an existing localized addon logo with an English fallback. */
+    private fun selectBestLocalizedLogoPath(
+        images: List<TmdbImage>,
+        normalizedLanguage: String
+    ): String? {
+        val languageCode = normalizedLanguage.substringBefore("-")
+        val candidates = if (languageCode == "en") images else images.filter {
+            it.iso6391 == languageCode || it.iso6391 == null
+        }
+        return selectBestLocalizedImagePath(candidates, normalizedLanguage)
+    }
+
     private fun selectBestLocalizedImagePath(
         images: List<TmdbImage>,
         normalizedLanguage: String
     ): String? {
-        if (images.isEmpty()) return null
+        val usableImages = images.filter { !it.filePath.isNullOrBlank() }
+        if (usableImages.isEmpty()) return null
         val languageCode = normalizedLanguage.substringBefore("-")
         val explicitRegion = normalizedLanguage.substringAfter("-", "").uppercase(Locale.US).takeIf { it.length == 2 }
         val regionCode = explicitRegion
@@ -1231,13 +1242,16 @@ class TmdbMetadataService(
         // the default-region map), prefer the exact region match first, then same-language
         // with no region, then same-language from any other region (cross-region fallback
         // e.g. pt-PT for pt-BR), and only then fall back to English.
-        return images
+        return usableImages
             .sortedWith(
                 compareByDescending<TmdbImage> { it.iso6391 == languageCode && it.iso31661 == regionCode }
                     .thenByDescending { it.iso6391 == languageCode && it.iso31661 == null }
                     .thenByDescending { it.iso6391 == languageCode }
                     .thenByDescending { it.iso6391 == "en" }
                     .thenByDescending { it.iso6391 == null }
+                    .thenByDescending { it.voteAverage ?: 0.0 }
+                    .thenByDescending { it.voteCount ?: 0 }
+                    .thenByDescending { it.width ?: 0 }
             )
             .firstOrNull()
             ?.filePath
@@ -1281,7 +1295,7 @@ class TmdbMetadataService(
     suspend fun fetchPersonDetail(
         personId: Int,
         preferCrewCredits: Boolean? = null,
-        language: String = "en"
+        language: String = DEFAULT_TMDB_LANGUAGE
     ): PersonDetail? =
         withContext(ioDispatcher) {
             val normalizedLanguage = normalizeTmdbLanguage(language)

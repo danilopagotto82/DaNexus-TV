@@ -27,8 +27,6 @@ internal fun UpdateChannelSettings(
 ) {
     val context = LocalContext.current
     val viewModel: UpdateViewModel = hiltViewModel(context as ComponentActivity)
-    val upstream: DanexusUpstreamViewModel = hiltViewModel(context as ComponentActivity)
-    val upstreamStatus by upstream.status.collectAsStateWithLifecycle()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     var showChannelDialog by rememberSaveable { mutableStateOf(false) }
     val channelName = when (state.updateChannel) {
@@ -58,11 +56,10 @@ internal fun UpdateChannelSettings(
 
     SettingsActionRow(
         title = stringResource(R.string.about_check_updates),
-        subtitle = upstreamStatus ?: stringResource(R.string.danexus_upstream_desc),
+        subtitle = stringResource(R.string.danexus_update_check_subtitle),
         trailingIcon = Icons.AutoMirrored.Filled.OpenInNew,
         onClick = {
-            upstream.check()
-            viewModel.checkForUpdates(force = true, showNoUpdateFeedback = false)
+            viewModel.checkForUpdates(force = true, showNoUpdateFeedback = true)
         }
     )
 

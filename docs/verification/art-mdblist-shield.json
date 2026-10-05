@@ -1,0 +1,136 @@
+{
+  "status": "APK_VERIFIED",
+  "edition": "Shield",
+  "version": "1.1.0-beta-nt4-danexus.4",
+  "versionCode": 1461,
+  "package": "com.danexus.tv.shield.debug",
+  "abis": [
+    "arm64-v8a"
+  ],
+  "certSha256": "77066ec7da0b758bbab4304a2ae64e22ed0f381d1ed29f85abfb1be3d26f1419",
+  "path": "D:\\NEXUS_7\\development\\nuvio\\entrega\\FASE12\\art-mdblist-20261005\\DaNexus-Shield-1.1.0-beta-nt4-danexus.4-arm64-v8a.apk",
+  "sha256": "37e927db0d566a8d9fcb69fc440524f13cfd94e8d6de994ca497d2971c94ba0d",
+  "size": 87716736,
+  "testReport": {
+    "status": "PASS",
+    "tests": 89,
+    "failures": 0,
+    "suites": [
+      {
+        "name": "com.nuvio.tv.data.mdblist.MdbListApiClientTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.mdblist.MdbListAuthRepositoryTest",
+        "tests": "16",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.mdblist.MdbListAuthStoreTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.mdblist.MdbListHttpClientTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.data.mdblist.OkHttpMdbListEngineTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.ApkDownloaderTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.ApkInstallerValidationTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.DanexusAutomaticUpdateTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.DanexusUpdateAssetsTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.ForkUpdatePreferencesTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.ForkUpdateRepositoryTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.ReleaseSelectorTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.UpdateBannerPolicyTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.nuvio.tv.updater.VersionUtilsTest",
+        "tests": "8",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ]
+  },
+  "tests": 89,
+  "failures": 0,
+  "deviceValidation": "PENDING",
+  "mdblist": "CLIENT_CONFIGURED_DEVICE_FLOW_ACCEPTED",
+  "mdblistClientEmbedded": true,
+  "tmdbChanges": "PT_BR_PRIORITY_BOTH_EDITIONS",
+  "updater": "DANEXUS_NATIVE_AUTO_CHECK_AND_EDITION_APK_VALIDATED",
+  "seconds": 1894,
+  "at": "2026-10-05T06:44:33.992813+00:00",
+  "sourceCommit": "b1e503d35f4626bb28237e9f98b8d7e218902084",
+  "sourceAsset": "D:\\NEXUS_7\\development\\nuvio\\entrega\\FASE12\\art-mdblist-20261005\\DaNexus-Shield-1.1.0-beta-nt4-danexus.4-source.zip",
+  "sourceSha256": "25f2aa8b15b51eadc3e955850b4f5c5f0e27836847bb8949a6881968ffc39cfd",
+  "sourceSize": 97547413,
+  "tag": "v1.1.0-beta-nt4-danexus.4",
+  "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.4/DaNexus-Shield-1.1.0-beta-nt4-danexus.4-arm64-v8a.apk",
+  "sourceUrl": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.4/DaNexus-Shield-1.1.0-beta-nt4-danexus.4-source.zip",
+  "publicDownloadVerified": false
+}

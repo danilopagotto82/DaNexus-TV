@@ -119,6 +119,8 @@ import androidx.core.os.ConfigurationCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -1221,6 +1223,16 @@ open class MainActivity : ComponentActivity() {
                     }
 
                     val updateViewModel: UpdateViewModel = hiltViewModel(this@MainActivity)
+                    val updateLifecycleOwner = LocalLifecycleOwner.current
+                    DisposableEffect(updateLifecycleOwner, updateViewModel) {
+                        val observer = LifecycleEventObserver { _, event ->
+                            if (event == Lifecycle.Event.ON_RESUME) {
+                                updateViewModel.checkForUpdates(force = false, showNoUpdateFeedback = false)
+                            }
+                        }
+                        updateLifecycleOwner.lifecycle.addObserver(observer)
+                        onDispose { updateLifecycleOwner.lifecycle.removeObserver(observer) }
+                    }
                     val updateState by updateViewModel.uiState.collectAsState()
                     val updateBannerState = updateState.copy(
                         showBanner = updateState.showBanner && currentRoute?.startsWith("player/") != true

@@ -146,6 +146,10 @@ class HomeEnrichmentRetryTest {
         viewModel.onItemFocusPipeline(item(itemId))
         awaitCalls(calls, 1, "TMDB succeeding should not stop the external fetch being attempted")
 
+        // A request being attempted does not mean its asynchronous result has been cached yet.
+        withTimeout(5_000) {
+            while (itemId !in viewModel.prefetchedTmdbIds) delay(25)
+        }
         // The state the second gate reads: TMDB resolved and is cached, external failed and is not.
         assertTrue("TMDB should be cached after it resolved", itemId in viewModel.prefetchedTmdbIds)
         assertTrue(
@@ -158,6 +162,9 @@ class HomeEnrichmentRetryTest {
         focusAndSettle(viewModel, item(itemId))
 
         awaitCalls(calls, 2, "a TMDB success must not suppress the external retry")
+        withTimeout(5_000) {
+            while (itemId !in viewModel.prefetchedExternalMetaIds) delay(25)
+        }
         assertTrue(
             "the external retry resolved, so it should now be cached too",
             itemId in viewModel.prefetchedExternalMetaIds

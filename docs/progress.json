@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-05T00:49:05.623429-03:00",
-  "status": "Correções de Trakt e arte entregues para validação. MDBList aguarda Client ID.",
-  "eta": "FASE 12 aberta: validar login Trakt e alterações nos aparelhos; concluir configuração MDBList.",
+  "updatedAt": "2026-10-05T03:45:12.432720-03:00",
+  "status": "MDBList, arte PT-BR e atualizador DaNexus prontos nas duas edições.",
+  "eta": "Instalar a atualização, parear Trakt/MDBList e conferir a arte PT-BR nos aparelhos.",
   "steps": [
     {
       "label": "Correções e testes",
@@ -13,30 +13,30 @@
     },
     {
       "label": "Downloads públicos",
-      "status": "done"
+      "status": "active"
     },
     {
       "label": "Trakt nos aparelhos",
       "status": "pending"
     },
     {
-      "label": "Configuração MDBList",
+      "label": "MDBList nos aparelhos",
       "status": "pending"
     }
   ],
   "fire": {
-    "downloadVerified": true,
-    "status": "6 testes focados sem falhas. Pareamento Trakt pendente; MDBList aguarda configuração.",
-    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.5/DaNexus-FireTV-1.1.0-beta.4-danexus.5-armeabi-v7a.apk",
-    "meta": "Versão: 1.1.0-beta.4-danexus.5 · com.danexus.tv.fire.debug · armeabi-v7a",
-    "sha256": "5b32d66465144a4ae743351f9b2621e3f77044bddb1eca56e25503053e7b026a"
+    "downloadVerified": false,
+    "status": "144 testes focados sem falhas. MDBList configurado; conectar as contas após atualizar.",
+    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta.4-danexus.6/DaNexus-FireTV-1.1.0-beta.4-danexus.6-armeabi-v7a.apk",
+    "meta": "Versão: 1.1.0-beta.4-danexus.6 · com.danexus.tv.fire.debug · armeabi-v7a",
+    "sha256": "a25b27c483be380064a91c142649c9c11cf808d2441acc2f44f8cf5433b1266f"
   },
   "shield": {
-    "downloadVerified": true,
-    "status": "84 testes focados sem falhas. Pareamento Trakt pendente; MDBList aguarda configuração.",
-    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.3/DaNexus-Shield-1.1.0-beta-nt4-danexus.3-arm64-v8a.apk",
-    "meta": "Versão: 1.1.0-beta-nt4-danexus.3 · com.danexus.tv.shield.debug · arm64-v8a",
-    "sha256": "94f002577ec51f1c1fada50942daacc6dbc577d431142b8886ce52125314cf32"
+    "downloadVerified": false,
+    "status": "89 testes focados sem falhas. MDBList configurado; conectar as contas após atualizar.",
+    "url": "https://github.com/danilopagotto82/DaNexus-TV/releases/download/v1.1.0-beta-nt4-danexus.4/DaNexus-Shield-1.1.0-beta-nt4-danexus.4-arm64-v8a.apk",
+    "meta": "Versão: 1.1.0-beta-nt4-danexus.4 · com.danexus.tv.shield.debug · arm64-v8a",
+    "sha256": "37e927db0d566a8d9fcb69fc440524f13cfd94e8d6de994ca497d2971c94ba0d"
   },
   "downloaderCode": null,
   "physicalApproval": "PENDING_DAN"

@@ -3365,4 +3365,5 @@
     <string name="autosync_toast_failed_no_reference">Sync failed: this video has no embedded subtitles to compare with.</string>
     <string name="autosync_toast_failed_unsupported">Sync failed: Auto Sync doesn\'t support this subtitle format.</string>
     <string name="autosync_label_synced">Auto synced</string>
+    <string name="danexus_update_check_subtitle">Aviso de novas versões DaNexus, com novidades e instalação pelo app.</string>
 </resources>

@@ -19,7 +19,7 @@ class ForkUpdateRepositoryTest {
     private val nextCode = BuildConfig.VERSION_CODE + 1L
     private fun asset(abi: String = "arm64-v8a") = GitHubAssetDto(
         "DaNexus-Shield-${BuildConfig.VERSION_NAME}-$abi.apk",
-        "https://github.com/${BuildConfig.GITHUB_OWNER}/${BuildConfig.GITHUB_REPO}/releases/download/test/DaNexus-Shield-${BuildConfig.VERSION_NAME}-$abi.apk", 42
+        "https://github.com/${BuildConfig.GITHUB_OWNER}/${BuildConfig.GITHUB_REPO}/releases/download/${BuildConfig.VERSION_NAME}/DaNexus-Shield-${BuildConfig.VERSION_NAME}-$abi.apk", 42
     )
     private fun release(code: Long = nextCode, assets: List<GitHubAssetDto> = listOf(asset())) = GitHubReleaseDto(
         tagName = BuildConfig.VERSION_NAME, prerelease = true,

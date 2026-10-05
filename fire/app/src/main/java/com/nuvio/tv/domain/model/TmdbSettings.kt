@@ -1,11 +1,13 @@
 package com.nuvio.tv.domain.model
 
+const val DEFAULT_TMDB_LANGUAGE = "pt-BR"
+
 data class TmdbSettings(
     val enabled: Boolean = false,
     val modernHomeEnabled: Boolean = false,
     val enrichContinueWatching: Boolean = true,
-    // TMDB language preference (ISO-639-1, default English)
-    val language: String = "en",
+    // DaNexus defaults to Brazilian Portuguese; an explicit preference is preserved.
+    val language: String = DEFAULT_TMDB_LANGUAGE,
     // Group: Artwork (logo, backdrop)
     val useArtwork: Boolean = true,
     // Group: Basic Info (description, genres, rating)

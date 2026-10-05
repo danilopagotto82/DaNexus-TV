@@ -21,7 +21,7 @@ internal fun UpdateChannelSettings(initialFocusRequester: FocusRequester?, modif
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     SettingsToggleRow(
         title = stringResource(R.string.about_update_banner_title),
-        subtitle = stringResource(R.string.about_fork_updates_subtitle),
+        subtitle = stringResource(R.string.danexus_update_check_subtitle),
         checked = state.updateBannerEnabled,
         onToggle = { viewModel.setUpdateBannerEnabled(!state.updateBannerEnabled) },
         modifier = modifier.then(if (initialFocusRequester != null)
@@ -29,7 +29,7 @@ internal fun UpdateChannelSettings(initialFocusRequester: FocusRequester?, modif
     )
     SettingsActionRow(
         title = stringResource(R.string.about_check_updates),
-        subtitle = stringResource(R.string.about_check_updates_subtitle),
+        subtitle = stringResource(R.string.danexus_update_check_subtitle),
         trailingIcon = Icons.AutoMirrored.Filled.OpenInNew,
         onClick = { viewModel.checkForUpdates(force = true, showNoUpdateFeedback = true) }
     )

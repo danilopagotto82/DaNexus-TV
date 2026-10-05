@@ -102,8 +102,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1460
-        versionName = "1.1.0-beta-nt4-danexus.3"
+        versionCode = 1461
+        versionName = "1.1.0-beta-nt4-danexus.4"
         // Optional -PnuvioAppIdSuffix=.name installs a local test build next to the main app.
         providers.gradleProperty("nuvioAppIdSuffix").orNull?.takeIf { it.isNotBlank() }?.let {
             applicationIdSuffix = it
@@ -164,8 +164,8 @@ android {
         buildConfigField("String", "SPONSOR_NAMES", buildConfigString(sponsorNames))
 
         // One beta stream for this fork, including GitHub prereleases.
-        buildConfigField("String", "GITHUB_OWNER", "\"ysosrs123\"")
-        buildConfigField("String", "GITHUB_REPO", "\"NuvioTV-Fork\"")
+        buildConfigField("String", "GITHUB_OWNER", "\"danilopagotto82\"")
+        buildConfigField("String", "GITHUB_REPO", "\"DaNexus-TV\"")
         buildConfigField("boolean", "UPDATE_CHECK_ENABLED", "true")
     }
 

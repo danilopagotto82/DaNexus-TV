@@ -45,6 +45,8 @@ class UpdateViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UpdateUiState())
     val uiState: StateFlow<UpdateUiState> = _uiState.asStateFlow()
     private var updateCheckJob: Job? = null
+    private var lastAutomaticCheckAtMs = 0L
+    private var updatePreferencesLoaded = false
 
     init {
         viewModelScope.launch {
@@ -55,13 +57,22 @@ class UpdateViewModel @Inject constructor(
                     updateBannerEnabled = enabled
                 )
             }
-            if (enabled && !BuildConfig.IS_DEBUG_BUILD) {
+            updatePreferencesLoaded = true
+            if (enabled) {
                 checkForUpdates(force = false, showNoUpdateFeedback = false)
             }
         }
     }
 
     fun checkForUpdates(force: Boolean, showNoUpdateFeedback: Boolean) {
+        if (!force && !updatePreferencesLoaded) return
+        if (_uiState.value.isDownloading) return
+        if (!force) {
+            if (!_uiState.value.updateBannerEnabled) return
+            val now = System.currentTimeMillis()
+            if (now - lastAutomaticCheckAtMs in 0 until 15 * 60 * 1_000L) return
+            lastAutomaticCheckAtMs = now
+        }
         if (!BuildConfig.UPDATE_CHECK_ENABLED) {
             _uiState.update {
                 it.copy(
@@ -191,7 +202,7 @@ class UpdateViewModel @Inject constructor(
         }
         viewModelScope.launch {
             updatePreferences.setUpdateBannerEnabled(enabled)
-            if (enabled && changed && !BuildConfig.IS_DEBUG_BUILD) {
+            if (enabled && changed) {
                 checkForUpdates(force = false, showNoUpdateFeedback = false)
             }
         }
